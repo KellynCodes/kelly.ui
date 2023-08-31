@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+.mat-headline-3,
+.mat-headline-1 {
+  font-weight: 500 !important;
+}
+
+body {
+  font-family: "Open Sans", sans-serif !important;
+  color: #444444 !important;
+  margin: 5rem 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Raleway", sans-serif !important;
+}
