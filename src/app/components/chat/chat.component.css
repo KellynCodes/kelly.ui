@@ -14,3 +14,7 @@
   height: 1px;
   background: #eee;
 }
+
+.card-body{
+    overflow-y: scroll;
+}

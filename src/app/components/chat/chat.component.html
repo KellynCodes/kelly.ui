@@ -9,7 +9,6 @@
             <h5 class="mb-0">Chat</h5>
             <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">
               Let's Chat
-              App
             </button>
           </div>
           <div class="card-body" data-mdb-perfect-scrollbar="true" style="position: relative; height: 400px">
@@ -50,16 +49,14 @@
             </div>
 
           </div>
-            <form class="card-footer text-muted d-flex justify-content-start align-items-center p-3" [formGroup]="chatForm" (ngSubmit)="sendMessage()">
+            <form class="card-footer text-muted d-flex flex-column justify-content-start align-items-center p-3" [formGroup]="chatForm" (ngSubmit)="sendMessage()">
             <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
                  alt="avatar 3" style="width: 40px; height: 100%;">
             <input type="text" class="form-control form-control-lg" formControlName="message" id="message"
                    placeholder="Type message">
-              <textarea  rows="4"></textarea>
-              <mat-error *ngIf="chatForm?.get('message')?.hasError('required')">
-                Password is required.
+              <mat-error *ngIf="chatForm.touched && chatForm.get('message')?.hasError('required')">
+                Message is required.
               </mat-error>
-              <label class="form-label" for="message">Type your message</label>
               <button [disabled]="!chatForm.valid" mat-raised-button color="primary" class="btn btn-small btn-primary" type="submit">
                 Send
               </button>
