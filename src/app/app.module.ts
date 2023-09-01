@@ -28,6 +28,12 @@ import { TemplatePageTitleStrategy } from './Extension/title.strategy';
 import { JwtTokenInterceptor } from './Extension/http.interceptor';
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatWindowComponent } from './pages/chat-window/chat-window.component';
+import { AboutComponent } from './pages/about/about.component';
+import { PortfolioComponent } from './pages/portfolio/portfolio.component';
+import { ResumeComponent } from './pages/resume/resume.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { ServicesComponent } from './pages/services/services.component';
+import { PortfolioDetailComponent } from './components/portfolio-detail/portfolio-detail.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +45,13 @@ import { ChatWindowComponent } from './pages/chat-window/chat-window.component';
     LoginComponent,
     SignupComponent,
     ChatComponent,
-    ChatWindowComponent
+    ChatWindowComponent,
+    AboutComponent,
+    PortfolioComponent,
+    ResumeComponent,
+    ContactComponent,
+    ServicesComponent,
+    PortfolioDetailComponent
   ],
   imports: [
     BrowserModule,
