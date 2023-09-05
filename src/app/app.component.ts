@@ -9,24 +9,10 @@ export class AppComponent implements OnInit {
   private worker!: Worker;
   public messageFromWorker!: string;
 
-  constructor(private ngZone: NgZone) {
-    console.log(import.meta.url);
+  constructor() {
   }
 
   ngOnInit(): void {
-    if (typeof Worker !== 'undefined') {
-      // Create a new worker instance
-      this.worker = new Worker('./app.worker', { type: 'module' });
-      this.worker.onmessage = ({ data }) => {
-        // Use NgZone to update view in Angular
-        this.ngZone.run(() => {
-          this.messageFromWorker = data;
-        });
-      };
-    } else {
-      // Web Workers are not supported in this environment
-      console.warn('Web Workers are not supported in this environment.');
-    }
   }
 
   sendMessage(): void {

@@ -1,0 +1,43 @@
+<div class="container">
+    <form [formGroup]="loginForm" (ngSubmit)="Login()">
+        <h2>Login</h2>
+        <div class="form_container">
+          <div class="input_container">
+            <mat-form-field appearance="outline">
+              <mat-label>example@gmail.com</mat-label>
+              <input matInput formControlName="email" type="email">
+              <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+                Email is required.
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+                Please enter a valid email.
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+              <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                      [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+                Password is required.
+              </mat-error>
+              <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+                Password should be at least 8 characters.
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <h5 class="badge bg-danger" *ngIf="errorMessage$ | async as authMessage"> {{authMessage}} </h5>
+          <kelly-loader *ngIf="IsLoading$ | async" />
+          <button
+                  type="submit"
+                  [disabled]="!loginForm.valid"
+                  [innerText]="(IsLoading$ | async) ? 'Loading...' : 'Login'"
+                  class="btn btn-success" color="primary">
+          </button>
+        </div>
+        <h4>Don't have an account? <span><a routerLink="/auth/signup">SignUp</a></span></h4>
+    </form>
+</div>

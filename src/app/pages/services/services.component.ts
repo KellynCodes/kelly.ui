@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-services',
+  selector: 'kelly-services',
   templateUrl: './services.component.html',
   styleUrls: ['./services.component.css']
 })

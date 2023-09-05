@@ -5,9 +5,9 @@ import { JwtService } from '../../services/utils/jwt.service';
 export const navigationGuard: CanActivateFn = (route, state) => {
   const jwtService = inject(JwtService);
   const router = inject(Router);
-  const decodedToken = jwtService.decodeJwtToken();
-  if (decodedToken.IsSuccessful && decodedToken.data != null) {
-    return router.parseUrl('/');
+  const { IsSuccessful, user } = jwtService.getUser;
+  if (IsSuccessful && user != null) {
+    return router.navigateByUrl('/');
   }
   return true;
 };

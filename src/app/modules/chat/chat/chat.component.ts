@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { SignalRService } from '../../services/signalr/signalr.service';
-import { ChatDto } from '../../models/chat';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { SignalRService } from '../../../services/signalr/signalr.service';
+import { ChatDto } from '../../../models/chat';
 
 @Component({
-  selector: 'app-chat',
+  selector: 'kelly-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css']
 })
@@ -31,7 +31,7 @@ export class ChatComponent {
   }
 
   sendMessage() {
-    const chat: ChatDto = { userId: "abeca400-91ef-4493-8b4e-09adc1b9a161", username:"Kelly", message: this.chatForm.value.message };
+    const chat: ChatDto = { userId: "be314293-a542-43dd-89c5-9c2286b59e18", username:"Kelly", message: this.chatForm.value.message };
     this.signalRService.sendMessage(chat);
     this.IsTyping = false;
     this.chatForm.reset();

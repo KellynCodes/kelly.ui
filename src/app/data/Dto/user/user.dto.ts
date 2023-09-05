@@ -1,7 +1,7 @@
 export interface UserDto {
   _id?: string;
 
-  username: string;
+  unique_name: string[];
 
   profileURL: string;
 
@@ -11,5 +11,4 @@ export interface UserDto {
 
   role: string;
 
-  createdAt?: Date;
 }

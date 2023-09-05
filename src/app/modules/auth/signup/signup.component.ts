@@ -1,7 +1,5 @@
-import { AuthService } from '../../services/auth/auth.service';
 import { Component, Inject } from '@angular/core';
 import { HttpStatusCode } from '@angular/common/http';
-import { HttpResponse } from '../../data/Dto/http.response.dto';
 import {
   AbstractControl,
   FormControl,
@@ -9,10 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { localStorageToken } from '../../Extension/local.storage';
+import { localStorageToken } from '../../../extension/local.storage';
+import { AuthService } from '../../../services/auth/auth.service';
+import { HttpResponse } from '../../../data/Dto/http.response.dto';
 
 @Component({
-  selector: 'hms-signup',
+  selector: 'kelly-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
 })
@@ -82,7 +82,7 @@ export class SignupComponent {
       next: (res) => {
         if (res.statusCode == HttpStatusCode.Ok) {
           this.localStorage.removeItem('UserImgPath');
-          this.localStorage.setItem('UserImgPath', res.data.ImgPath);
+          this.localStorage.setItem('UserImgPath', res.data!.ImgPath);
           this.uploaded = true;
           this.uploadingImage = false;
           this.successMessage = `${res.message}`;

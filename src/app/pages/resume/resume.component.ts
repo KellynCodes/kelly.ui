@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-resume',
+  selector: 'kelly-resume',
   templateUrl: './resume.component.html',
   styleUrls: ['./resume.component.css']
 })
