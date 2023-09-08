@@ -4,7 +4,7 @@ import { LoginDto } from '../../data/Dto/auth/login.dto';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SignUpDto } from '../../data/Dto/auth/signup.dto';
-import { localStorageToken } from '../../Extension/local.storage';
+import { localStorageToken } from '../../extension/local.storage';
 import { environment } from '../../../environment/environment';
 
 @Injectable({

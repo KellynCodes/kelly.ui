@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
-import { localStorageToken } from '../../Extension/local.storage';
+import { localStorageToken } from '../../extension/local.storage';
 
 @Injectable({
   providedIn: 'root',

@@ -24,8 +24,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { AppRoutingModule } from './routes/app-routing.module';
-import { TemplatePageTitleStrategy } from './Extension/title.strategy';
-import { JwtTokenInterceptor } from './Extension/http.interceptor';
+import { TemplatePageTitleStrategy } from './extension/title.strategy';
+import { JwtTokenInterceptor } from './extension/http.interceptor';
 import { ChatComponent } from './components/chat/chat.component';
 import { ChatWindowComponent } from './pages/chat-window/chat-window.component';
 import { AboutComponent } from './pages/about/about.component';
@@ -51,7 +51,7 @@ import { PortfolioDetailComponent } from './components/portfolio-detail/portfoli
     ResumeComponent,
     ContactComponent,
     ServicesComponent,
-    PortfolioDetailComponent
+    PortfolioDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,4 +76,4 @@ import { PortfolioDetailComponent } from './components/portfolio-detail/portfoli
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

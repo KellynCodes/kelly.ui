@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { localStorageToken } from '../../Extension/local.storage';
+import { localStorageToken } from '../../extension/local.storage';
 
 @Component({
   selector: 'hms-signup',
@@ -33,7 +33,7 @@ export class SignupComponent {
     private authService: AuthService,
     @Inject(localStorageToken) private localStorage: Storage,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.regForm = new FormGroup({
