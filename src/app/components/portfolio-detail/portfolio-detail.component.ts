@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-portfolio-detail',
+  selector: 'kelly-portfolio-detail',
   templateUrl: './portfolio-detail.component.html',
   styleUrls: ['./portfolio-detail.component.css']
 })
