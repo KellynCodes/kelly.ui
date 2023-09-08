@@ -4,7 +4,6 @@ import { Store } from '@ngrx/store';
 import { LoginDto } from '../../../data/Dto/auth/login.dto';
 import { AppState } from '../../../state/app/app.state';
 import * as AuthActions from "../../../state/auth/auth.action";
-import * as authSelector from "../../../state/auth/auth.selector";
 import * as SharedAction from "../../../state/shared/shared.action";
 import * as sharedSelector from "../../../state/shared/shared.selector";
 
