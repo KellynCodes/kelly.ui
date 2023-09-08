@@ -1,18 +1,14 @@
+import { TemplatePageTitleStrategy } from './extension/title.strategy';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import {
-  HashLocationStrategy,
-  LocationStrategy,
-  PathLocationStrategy,
-} from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { TitleStrategy } from '@angular/router';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './routes/app-routing.module';
-import { TemplatePageTitleStrategy } from './extension/title.strategy';
 import { JwtTokenInterceptor } from './extension/http.interceptor';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { PagesModule } from './pages/pages.module';
@@ -22,12 +18,10 @@ import { appReducer } from './state/app/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffect } from './state/auth/auth.effect';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
-import { CustomSerializer } from './router/implementations/custom.serilizer';
+import { CustomSerializer } from './router/implementations/custom.serializer';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     PagesModule,
     ComponentsModule,
@@ -40,7 +34,7 @@ import { CustomSerializer } from './router/implementations/custom.serilizer';
     EffectsModule.forRoot([AuthEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot({
-      serializer: CustomSerializer
+      serializer: CustomSerializer,
     }),
   ],
   providers: [
@@ -50,4 +44,4 @@ import { CustomSerializer } from './router/implementations/custom.serilizer';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
