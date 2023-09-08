@@ -21,6 +21,8 @@ import { StoreModule } from '@ngrx/store';
 import { appReducer } from './state/app/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffect } from './state/auth/auth.effect';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './router/implementations/custom.serilizer';
 
 @NgModule({
   declarations: [
@@ -36,10 +38,13 @@ import { AuthEffect } from './state/auth/auth.effect';
     ClipboardModule,
     StoreModule.forRoot(appReducer),
     EffectsModule.forRoot([AuthEffect]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer
+    }),
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: TitleStrategy, useClass: TemplatePageTitleStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
   ],

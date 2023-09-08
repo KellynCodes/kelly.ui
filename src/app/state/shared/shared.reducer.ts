@@ -1,5 +1,5 @@
 import { createReducer, on } from "@ngrx/store";
-import { setErrorMessage, setLoadingSpinner } from "./shared.action";
+import { setErrorMessage, setIsMobile, setLoadingSpinner } from "./shared.action";
 import { sharedState } from "./shared.state";
 
 const _sharedReducer = createReducer(sharedState,
@@ -14,6 +14,12 @@ const _sharedReducer = createReducer(sharedState,
       ...state,
       errorMessage: message
     };
+  }),
+  on(setIsMobile, (state, {IsMobile }) => {
+    return {
+      ...state,
+      IsMobile: IsMobile
+    }
   })
 )
 

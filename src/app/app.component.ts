@@ -10,24 +10,38 @@ export class AppComponent implements OnInit {
   public messageFromWorker!: string;
 
   constructor() {
+  
   }
 
   ngOnInit(): void {
+    this.runWorker(100);
+   
   }
 
-  sendMessage(): void {
-    this.worker.postMessage('Hello from app!');
+  sendMessage(data: any): void {
+    this.worker.postMessage(data);
   }
-}
 
-if (typeof Worker !== 'undefined') {
+   ngOnDestroy() {
+    // Terminate the worker when the component is destroyed
+    if (this.worker) {
+      this.worker.terminate();
+    }
+  }
+
+runWorker(data: any): void {
+  if(typeof Worker !== 'undefined') {
   // Create a new
-  const worker = new Worker(new URL('./app.worker', import.meta.url));
+  const worker = new Worker(new URL('./worker/app.worker', import.meta.url));
   worker.onmessage = ({ data }) => {
     console.log(`page got message: ${data}`);
-  };
-  worker.postMessage('hello');
+    };
+    const isGetUser: boolean = true;
+    worker.postMessage(isGetUser);
 } else {
   // Web Workers are not supported in this environment.
   // You should add a fallback so that your program still executes correctly.
+}
+
+}
 }

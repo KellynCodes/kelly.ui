@@ -10,7 +10,6 @@ import { PortfolioDetailComponent } from "../components/portfolio-detail/portfol
 
 export const routes: Routes = [
   { path: "", component: HomeComponent, title: "Home" },
-  { path: "home", component: HomeComponent, title: "Home" },
   { path: "about", component: AboutComponent, title: "About" },
   { path: "resume", component: ResumeComponent, title: "Resume" },
   { path: "portfolio", component: PortfolioComponent, title: "Portfolio" },
