@@ -1,0 +1,9 @@
+services:
+- type: web
+  name: client
+  env: static
+  buildCommand: ng build --prod
+  staticPublishPath: dist/client
+  routes:
+    - src: /.*
+      dest: /index.html

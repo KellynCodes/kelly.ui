@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { SignUpDto } from '../../data/Dto/auth/signup.dto';
 import { localStorageToken } from '../../extension/local.storage';
 import { environment } from '../../../environment/environment';
+import { LoginSuccessDto } from './Dto/LoginSuccessDto';
 
 @Injectable({
   providedIn: 'root',
@@ -16,12 +17,12 @@ export class AuthService {
     private http: HttpClient
   ) {}
 
-  Login(model: LoginDto): Observable<HttpResponse<{ token: string }>> {
+  Login(model: LoginDto): Observable<HttpResponse<LoginSuccessDto>> {
     if (model == null) {
       throw new Error('model value cannot be null');
     }
-    const url: string = `${environment.apiUrl}/auth/login`;
-    return this.http.post<HttpResponse<{ token: string }>>(url, model);
+    const url: string = `${environment.apiUrl}/auth/sign-in`;
+    return this.http.post<HttpResponse<LoginSuccessDto>>(url, model);
   }
 
   signUp(model: SignUpDto): Observable<HttpResponse<{ token: string }>> {

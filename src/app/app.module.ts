@@ -1,79 +1,47 @@
-import { NgModule } from '@angular/core';
+import { TemplatePageTitleStrategy } from './extension/title.strategy';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { HomeComponent } from './pages/home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NotfoundComponent } from './components/notfound/notfound.component';
-import {
-  HashLocationStrategy,
-  LocationStrategy,
-  PathLocationStrategy,
-} from '@angular/common';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { TitleStrategy } from '@angular/router';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './components/login/login.component';
-import { SignupComponent } from './components/signup/signup.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatError, MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+
 import { AppRoutingModule } from './routes/app-routing.module';
-import { TemplatePageTitleStrategy } from './extension/title.strategy';
 import { JwtTokenInterceptor } from './extension/http.interceptor';
-import { ChatComponent } from './components/chat/chat.component';
-import { ChatWindowComponent } from './pages/chat-window/chat-window.component';
-import { AboutComponent } from './pages/about/about.component';
-import { PortfolioComponent } from './pages/portfolio/portfolio.component';
-import { ResumeComponent } from './pages/resume/resume.component';
-import { ContactComponent } from './pages/contact/contact.component';
-import { ServicesComponent } from './pages/services/services.component';
-import { PortfolioDetailComponent } from './components/portfolio-detail/portfolio-detail.component';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { PagesModule } from './pages/pages.module';
+import { ComponentsModule } from './components/components.module';
+import { StoreModule } from '@ngrx/store';
+import { appReducer } from './state/app/app.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { AuthEffect } from './state/auth/auth.effect';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { CustomSerializer } from './router/implementations/custom.serializer';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    FooterComponent,
-    NavbarComponent,
-    HomeComponent,
-    NotfoundComponent,
-    LoginComponent,
-    SignupComponent,
-    ChatComponent,
-    ChatWindowComponent,
-    AboutComponent,
-    PortfolioComponent,
-    ResumeComponent,
-    ContactComponent,
-    ServicesComponent,
-    PortfolioDetailComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
+    PagesModule,
+    ComponentsModule,
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     ClipboardModule,
-    MatPaginatorModule,
-    BrowserAnimationsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTableModule,
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([AuthEffect]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomSerializer,
+    }),
   ],
   providers: [
-    { provide: LocationStrategy, useClass: HashLocationStrategy },
+    { provide: LocationStrategy, useClass: PathLocationStrategy },
     { provide: TitleStrategy, useClass: TemplatePageTitleStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
+import { UserDto } from '../../data/Dto/user/user.dto';
 import { localStorageToken } from '../../extension/local.storage';
 
 @Injectable({
@@ -8,20 +9,32 @@ import { localStorageToken } from '../../extension/local.storage';
 export class JwtService {
   constructor(@Inject(localStorageToken) private localStorage: Storage) {}
   token: string | null = this.localStorage.getItem('token');
+  user: any | null = this.localStorage.getItem('user');
 
-  get getToken(): { IsSuccessful: boolean; token: string | null } {
+ public get getToken(): { IsSuccessful: boolean; token: string | null } {
     if (this.token == null) {
       return { IsSuccessful: false, token: null };
     }
     return { IsSuccessful: true, token: this.token };
   }
 
-  decodeJwtToken(): { IsSuccessful: boolean; data: any } {
+  public get getUser(): { IsSuccessful: boolean; user: UserDto | null } {
+    if (this.user == null) {
+      return { IsSuccessful: false, user: null };
+    }
+    const user: UserDto = JSON.parse(this.user);
+    return { IsSuccessful: true, user: user };
+  }
+
+  public decodeJwtToken(accessToken: string): { IsSuccessful: boolean; data: any } {
     try {
-      if (this.token == null) {
+      if (accessToken == "" || accessToken == null) {
         return { IsSuccessful: false, data: null };
       }
-      const decodedToken = jwt_decode(this.token);
+      this.localStorage.setItem("token", accessToken);
+      const decodedToken: UserDto = jwt_decode(accessToken);
+      const user: string = JSON.stringify(decodedToken);
+      this.localStorage.setItem("user", user);
       return { IsSuccessful: true, data: decodedToken };
     } catch (error) {
       return { IsSuccessful: false, data: null };

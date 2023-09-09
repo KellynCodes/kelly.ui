@@ -1,0 +1,70 @@
+<div class="container">
+  <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+    <h2>SignUp</h2>
+    <div class="form_container">
+      <div class="input_container">
+        <mat-form-field appearance="outline">
+          <mat-label>Username</mat-label>
+          <input matInput formControlName="username" type="text">
+          <mat-error *ngIf="regForm.get('username')?.hasError('required')">
+            Username is required.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>example@gmail.com</mat-label>
+          <input matInput formControlName="email" type="email">
+          <mat-error *ngIf="regForm.get('email')?.hasError('required')">
+            Email is required.
+          </mat-error>
+          <mat-error *ngIf="regForm.get('email')?.hasError('email')">
+            Please enter a valid email.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'">
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword"
+                  [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <mat-error *ngIf="regForm.get('password')?.hasError('required')">
+            Password is required.
+          </mat-error>
+          <p *ngIf="regForm.get('password')?.hasError('minLength')">
+            Password should be at least 8 characters.
+          </p>
+        </mat-form-field>
+
+        <div class="file_input_container">
+          <mat-label class="mb-2">Upload Profile Image</mat-label>
+          <input class="file_input form-control"
+                 (change)="onFileSelect($event)" type="file">
+
+          <span class="badge bg-success text-white mt-2" style="margin-right: 1rem;"
+                *ngIf="uploaded">Uploaded</span>
+          <a *ngIf="uploaded" class="badge bg-info" [href]="UserImgPath" target="_blank">View</a>
+
+          <h5 class="badge text-white bg-danger mb-2 mt-2" *ngIf="uploaded == false">
+            Image not uploaded try again!
+          </h5>
+          <h5 class="badge text-white bg-info mb-2 mt-2" *ngIf="uploadingImage">Uploading...</h5>
+
+          <mat-error *ngIf="uploadError != null">
+            {{uploadError}}
+          </mat-error>
+        </div>
+      </div>
+
+      <h5 class="badge bg-danger" *ngIf="error != null"> {{error.message}} </h5>
+      <h5 class="badge bg-danger" *ngIf="errorMessage != null"> {{errorMessage}} </h5>
+      <h5 class="badge bg-info" *ngIf="IsFetching">Loading...</h5>
+
+      <button mat-raised-button color="primary" type="submit">
+        SignUp
+      </button>
+    </div>
+    <h4>Already have an account? <span><a routerLink="/auth/login">Login</a></span></h4>
+  </form>
+</div>

@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule} from '@angular/router';
 import { routes } from './app.routing';
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-    useHash: true,
-    scrollPositionRestoration: 'top',
+    scrollPositionRestoration: "enabled",
   }),],
   exports: [RouterModule]
 })

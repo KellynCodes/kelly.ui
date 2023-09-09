@@ -13,5 +13,12 @@
   <ItemGroup>
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\extension\" />
+    <Folder Include="src\app\router\implementations\" />
+    <Folder Include="src\app\state\auth\" />
+    <Folder Include="src\app\state\chat\" />
+    <Folder Include="src\app\state\shared\" />
+    <Folder Include="src\app\worker\interfaces\" />
+    <Folder Include="src\app\worker\implementation\" />
+    <Folder Include="src\app\worker\utils\" />
   </ItemGroup>
 </Project>
