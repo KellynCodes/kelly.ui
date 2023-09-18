@@ -1,6 +1,5 @@
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../../services/auth/auth.service";
-import { Router } from "@angular/router";
 import * as AuthActions from "./auth.action";
 import { catchError, exhaustMap, finalize, map, of, tap } from "rxjs";
 import { JwtService } from "../../services/utils/jwt.service";

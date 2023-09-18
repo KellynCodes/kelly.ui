@@ -6,6 +6,7 @@ import { AppState } from '../../../state/app/app.state';
 import * as AuthActions from "../../../state/auth/auth.action";
 import * as SharedAction from "../../../state/shared/shared.action";
 import * as sharedSelector from "../../../state/shared/shared.selector";
+import { TimeOut } from '../../../services/utils/timeout.util';
 
 @Component({
   selector: 'kelly-login',
@@ -13,7 +14,10 @@ import * as sharedSelector from "../../../state/shared/shared.selector";
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  constructor(private store: Store<AppState>) { }
+  constructor(
+    private store: Store<AppState>,
+    private timeoutUtil: TimeOut
+  ) { }
   IsFetching!: boolean;
   hidePassword!: boolean;
   loginForm!: FormGroup;
@@ -32,16 +36,10 @@ export class LoginComponent {
     });
   }
 
-  setTimeOut(timeOut: number = 2000): void {
-    setTimeout(() => {
-      this.errorMessage = null;
-    }, timeOut);
-  }
-
   Login(): void {
     if (!this.loginForm.valid) {
       this.errorMessage = 'All the fields are required.';
-      this.setTimeOut(3000);
+      this.timeoutUtil.setTimeOut(3000, this.errorMessage);
       return;
     }
     const loginCredentials: LoginDto = { email: this.loginForm.value.email, password: this.loginForm.value.password};

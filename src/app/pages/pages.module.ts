@@ -7,6 +7,8 @@ import { HomeComponent } from './home/home.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { ContactComponent } from './contact/contact.component';
 import { RouterModule } from '@angular/router';
+import { MaterialModule } from '../modules/material/material.module';
+import { ComponentsModule } from '../components/components.module';
 
 
 
@@ -21,7 +23,9 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    MaterialModule,
+    ComponentsModule
   ],
   exports:[HomeComponent]
 })

@@ -1,4 +1,4 @@
-import { HttpResponse } from "../../data/Dto/http.response.dto";
+import { HttpResponse } from "../../data/Dto/shared/http.response.dto";
 import { LoginSuccessDto } from "../../services/auth/Dto/LoginSuccessDto";
 
 export const authState: HttpResponse<LoginSuccessDto> = {
