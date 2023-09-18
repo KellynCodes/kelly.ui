@@ -9,7 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { localStorageToken } from '../../../extension/local.storage';
 import { AuthService } from '../../../services/auth/auth.service';
-import { HttpResponse } from '../../../data/Dto/http.response.dto';
+import { HttpResponse } from '../../../data/Dto/shared/http.response.dto';
 
 @Component({
   selector: 'kelly-signup',

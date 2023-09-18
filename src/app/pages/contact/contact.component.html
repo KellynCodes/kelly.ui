@@ -4,9 +4,11 @@
   <section id="contact" class="contact">
     <div class="container" data-aos="fade-up">
 
-      <div class="section-title">
-        <h2>Contact</h2>
-        <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+      <div class="section-title text-left">
+        <h2>Get in Touch!</h2>
+        <h4>&#8226; Let's build something great together.</h4>
+        <br />
+        <h4>&#8226; Have a project in mind? Let's talk.</h4>
       </div>
 
 
@@ -17,19 +19,19 @@
             <div class="address">
               <i class="bi bi-geo-alt"></i>
               <h4>Location:</h4>
-              <p>A108 Adam Street, New York, NY 535022</p>
+              <p>24 Upper North 5th Avenue, New GRA, Trans-Ekulu 400103</p>
             </div>
 
             <div class="email">
               <i class="bi bi-envelope"></i>
               <h4>Email:</h4>
-              <p>info@example.com</p>
+              <p>eng.kelechiamos@gmail.com</p>
             </div>
 
             <div class="phone">
               <i class="bi bi-phone"></i>
               <h4>Call:</h4>
-              <p>+1 5589 55488 55s</p>
+              <p>+2349157060998</p>
             </div>
 
           </div>
@@ -38,27 +40,86 @@
 
         <div class="col-lg-8 mt-5 mt-lg-0">
 
-          <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+          <form [formGroup]="contactForm" (ngSubmit)="contactMe()" class="php-email-form">
             <div class="row">
+
               <div class="col-md-6 form-group">
-                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                <input type="text"
+                       id="name"
+                       formControlName="name"
+                       name="name"
+                       class="form-control"
+                       placeholder="Your Name"
+                       required>
+                <div *ngIf="contactForm.get('name')?.touched">
+                  <mat-error *ngIf="contactForm.get('name')?.hasError('required')">
+                    Name is required.
+                  </mat-error>
+                  <mat-error *ngIf="contactForm.get('name')?.hasError('minlength')">
+                    Name should be more than 2.
+                  </mat-error>
+                  <mat-error *ngIf="contactForm.get('name')?.hasError('maxlength')">
+                    Name should not be more than 50.
+                  </mat-error>
+                  </div>
+                </div>
+
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email"
+                         id="email"
+                         name="email"
+                         formControlName="email"
+                         class="form-control"
+                         placeholder="Your Email">
+                  <div *ngIf="contactForm.get('email')?.touched">
+                    <mat-error *ngIf="contactForm.get('email')?.hasError('required')">
+                      Email is required.
+                    </mat-error>
+                    <mat-error *ngIf="contactForm.get('email')?.hasError('email')">
+                      Please enter a valid email.
+                    </mat-error>
+                  </div>
+                </div>
+
               </div>
-              <div class="col-md-6 form-group mt-3 mt-md-0">
-                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+            
+            <div class="form-group mt-3">
+                  <textarea
+                         rows="5"
+                         type="text"
+                         id="message"
+                         formControlName="message"
+                         name="message"
+                         class="form-control"
+                         placeholder="Your Message">
+                  </textarea>
+              <div *ngIf="contactForm.get('message')?.touched">
+                  <mat-error *ngIf="contactForm.get('message')?.hasError('required')">
+                    Message is required.
+                  </mat-error>
+                  <mat-error *ngIf="contactForm.get('message')?.hasError('minlength')">
+                    Message should be more than 10.
+                  </mat-error>
+                  <mat-error *ngIf="contactForm.get('message')?.hasError('maxlength')">
+                    Message should not be more than 5000.
+                  </mat-error>
               </div>
-            </div>
-            <div class="form-group mt-3">
-              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
-            </div>
-            <div class="form-group mt-3">
-              <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
             </div>
             <div class="my-3">
-              <div class="loading">Loading</div>
-              <div class="error-message"></div>
+              <kelly-loader *ngIf="IsLoading$ | async" />
+              <div *ngIf="errorMessage != null" class="badge bg-danger">{{errorMessage}}</div>
+              <div *ngIf="errorMessage$ | async as contactErrorMessage"
+                   class="badge bg-danger">{{contactErrorMessage}}
+              </div>
               <div class="sent-message">Your message has been sent. Thank you!</div>
             </div>
-            <div class="text-center"><button type="submit">Send Message</button></div>
+            <div class="text-center">
+            <button
+                type="submit"
+                [innerText]="(IsLoading$ | async) ? 'Sending...' : 'Send Message'"
+                [disabled]="!contactForm.valid">
+            </button>
+            </div>
           </form>
 
         </div>

@@ -8,7 +8,7 @@
 
     <nav id="navbar" [class]="IsToggled ? 'navbar order-last order-lg-0 navbar-mobile' : 'navbar order-last order-lg-0 '">
       <ul *ngIf="IsMobile$ | async">
-        <li><a (click)="toggleNav" routerLinkActive="active" routerLink="/">Home</a></li>
+        <li><a (click)="toggleNav" routerLinkActive="active" routerLink="/home">Home</a></li>
         <li><a (click)="toggleNav" routerLinkActive="active" routerLink="/about">About</a></li>
         <li><a (click)="toggleNav" routerLinkActive="active" routerLink="/resume">Resume</a></li>
         <li><a (click)="toggleNav" routerLinkActive="active" routerLink="/services">Services</a></li>
@@ -16,7 +16,7 @@
         <li><a (click)="toggleNav" routerLinkActive="active" routerLink="/contact">Contact</a></li>
       </ul>
     <ul *ngIf="!(IsMobile$ | async)">
-        <li><a  routerLinkActive="active" routerLink="/">Home</a></li>
+        <li><a  routerLinkActive="active" routerLink="/home">Home</a></li>
         <li><a routerLinkActive="active" routerLink="/about">About</a></li>
         <li><a routerLinkActive="active" routerLink="/resume">Resume</a></li>
         <li><a routerLinkActive="active" routerLink="/services">Services</a></li>
@@ -30,7 +30,7 @@
     <div class="header-social-links">
       <a href="https://twitter.com/kellyncodes" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
       <a href="https://fb.com/kellyncodes" target="_blank" class="facebook"><i class="bi bi-facebook"></i></a>
-      <a href="https://instagram.com/kellyncodes" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+      <a href="https://github.com/kellyncodes" target="_blank" class="instagram"><i class="bi bi-github"></i></a>
       <a href="https://linkedin.com/in/kellyncodes" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
     </div>
 
