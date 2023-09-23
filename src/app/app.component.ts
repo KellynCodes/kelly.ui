@@ -40,12 +40,12 @@ export class AppComponent implements OnInit {
 runWorker(data: any): void {
   if(typeof Worker !== 'undefined') {
   // Create a new
-  const worker = new Worker(new URL('./worker/app.worker', import.meta.url));
-  worker.onmessage = ({ data }) => {
+  this.worker = new Worker(new URL('./worker/app.worker', import.meta.url));
+  this.worker.onmessage = ({ data }) => {
     console.log(`page got message: ${data}`);
     };
     const isGetUser: boolean = true;
-    worker.postMessage(isGetUser);
+    this.worker.postMessage(isGetUser);
 } else {
   // Web Workers are not supported in this environment.
   // You should add a fallback so that your program still executes correctly.
