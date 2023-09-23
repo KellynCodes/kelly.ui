@@ -90,8 +90,8 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss",
               "node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss",
-              "node_modules/font-awesome/css/font-awesome.css"
-              "src/assets/css/style.css",
+              "node_modules/font-awesome/css/font-awesome.css",
+              "src/assets/css/style.css"
             ],
             "scripts": ["src/assets/js/main.js"],
             "webWorkerTsConfig": "tsconfig.worker.json"
