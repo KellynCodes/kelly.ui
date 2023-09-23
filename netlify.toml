@@ -4,5 +4,5 @@
   status = 200
 
 [build]
-  command = "./node_modules/.bin/ng build --prod"
+  command = "ng build"
   publish = "dist/client"
