@@ -4,7 +4,7 @@ import { UserDto } from '../../data/Dto/user/user.dto';
 import { localStorageToken } from '../../extension/local.storage';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
-import { GetUserSuccess, LoginSuccess } from '../../modules/auth/state/auth.action';
+import { GetUserSuccess } from '../../modules/auth/state/auth.action';
 import { LoginSuccessDto } from '../auth/Dto/LoginSuccessDto';
 
 @Injectable({
@@ -15,15 +15,16 @@ export class JwtService {
     @Inject(localStorageToken) private localStorage: Storage,
     private store: Store<AppState>
   ) { }
-  private user: any | null = this.localStorage.getItem('authUser');
 
   public get getUser(): UserDto {
-    const authUser: LoginSuccessDto = JSON.parse(this.user);
+  const user: any | null = this.localStorage.getItem('authUser');
+    const authUser: LoginSuccessDto = JSON.parse(user);
     return authUser?.user!;
   }
 
   public get CheckUser(): UserDto {
-    const authUser: LoginSuccessDto = JSON.parse(this.user);
+    const user: any | null = this.localStorage.getItem("authUser");
+    const authUser: LoginSuccessDto = JSON.parse(user);
     this.store.dispatch(GetUserSuccess(authUser))
     return authUser?.user!;
   }
