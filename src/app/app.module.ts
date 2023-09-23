@@ -16,9 +16,10 @@ import { ComponentsModule } from './components/components.module';
 import { StoreModule } from '@ngrx/store';
 import { appReducer } from './state/app/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { AuthEffect } from './state/auth/auth.effect';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { CustomSerializer } from './router/implementations/custom.serializer';
+import { AuthEffect } from './modules/auth/state/auth.effect';
+import { ContactEffect } from './pages/contact/state/contact.effect';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +32,7 @@ import { CustomSerializer } from './router/implementations/custom.serializer';
     HttpClientModule,
     ClipboardModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([AuthEffect]),
+    EffectsModule.forRoot([AuthEffect, ContactEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,

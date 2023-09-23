@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { ChatDto } from '../../models/chat';
+import { environment } from '../../../environment/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class SignalRService {
 
   public startConnection = () => {
     this.hubConnection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5299/chat')
+      .withUrl(`${environment.apiUrl}/chat`)
       .build();
 
     this.hubConnection

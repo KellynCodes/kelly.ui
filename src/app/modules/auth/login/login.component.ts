@@ -3,10 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { LoginDto } from '../../../data/Dto/auth/login.dto';
 import { AppState } from '../../../state/app/app.state';
-import * as AuthActions from "../../../state/auth/auth.action";
 import * as SharedAction from "../../../state/shared/shared.action";
 import * as sharedSelector from "../../../state/shared/shared.selector";
 import { TimeOut } from '../../../services/utils/timeout.util';
+import { LoginRequest } from '../state/auth.action';
 
 @Component({
   selector: 'kelly-login',
@@ -44,6 +44,6 @@ export class LoginComponent {
     }
     const loginCredentials: LoginDto = { email: this.loginForm.value.email, password: this.loginForm.value.password};
     this.store.dispatch(SharedAction.setLoadingSpinner({IsLoading: true }));
-    this.store.dispatch(AuthActions.LoginRequest({ credentails: loginCredentials }));
+    this.store.dispatch(LoginRequest({ credentails: loginCredentials }));
   }
 }

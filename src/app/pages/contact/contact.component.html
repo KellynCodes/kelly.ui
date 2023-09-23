@@ -106,19 +106,20 @@
               </div>
             </div>
             <div class="my-3">
-              <kelly-loader *ngIf="IsLoading$ | async" />
               <div *ngIf="errorMessage != null" class="badge bg-danger">{{errorMessage}}</div>
-              <div *ngIf="errorMessage$ | async as contactErrorMessage"
-                   class="badge bg-danger">{{contactErrorMessage}}
+              <div *ngIf="successMessage$ | async as contactSuccessMessage"
+                   class="badge bg-success">{{contactSuccessMessage}}
               </div>
-              <div class="sent-message">Your message has been sent. Thank you!</div>
+              <div *ngIf="errorMessage$ | async as contactErrorMessage"
+                   class="badge bg-danger ml-5">{{contactErrorMessage}}
+              </div>
             </div>
             <div class="text-center">
-            <button
-                type="submit"
-                [innerText]="(IsLoading$ | async) ? 'Sending...' : 'Send Message'"
-                [disabled]="!contactForm.valid">
-            </button>
+             <div class=""><kelly-loader *ngIf="IsLoading$ | async" /></div>
+              <button class="" type="submit"
+                      [innerText]="(IsLoading$ | async) ? 'Sending...' : 'Send Message'"
+                      [disabled]="!contactForm.valid">
+              </button>
             </div>
           </form>
 

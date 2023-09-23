@@ -1,4 +1,4 @@
-import { HttpResponse } from "../../data/Dto/shared/http.response.dto";
+import { HttpResponse } from "../../../data/Dto/shared/http.response.dto";
 
 export interface ContactState {
   name: string | null;

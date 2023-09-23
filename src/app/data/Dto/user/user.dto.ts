@@ -1,5 +1,5 @@
 export interface UserDto {
-  _id?: string;
+  userId?: string;
 
   unique_name: string[];
 
@@ -10,5 +10,4 @@ export interface UserDto {
   password: string;
 
   role: string;
-
 }

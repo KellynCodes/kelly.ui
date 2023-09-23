@@ -7,6 +7,9 @@ import { SignUpDto } from '../../data/Dto/auth/signup.dto';
 import { localStorageToken } from '../../extension/local.storage';
 import { environment } from '../../../environment/environment';
 import { LoginSuccessDto } from './Dto/LoginSuccessDto';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app/app.state';
+import * as authActions from "../../modules/auth/state/auth.action";
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +17,8 @@ import { LoginSuccessDto } from './Dto/LoginSuccessDto';
 export class AuthService {
   constructor(
     @Inject(localStorageToken) private localStorage: Storage,
-    private http: HttpClient
+    private http: HttpClient,
+    private store: Store<AppState>
   ) {}
 
   Login(model: LoginDto): Observable<HttpResponse<LoginSuccessDto>> {
@@ -38,16 +42,10 @@ export class AuthService {
     return this.http.post<HttpResponse<{ ImgPath: string }>>(url, file);
   }
 
-  saveUserSession(user: any): boolean {
-    if (user == null) {
-      return false;
-    }
-    this.localStorage.setItem('token', user.data.token);
-    return true;
-  }
 
   logout(): boolean {
-    this.localStorage.removeItem('token');
+    this.localStorage.removeItem('authUser');
+    this.store.dispatch(authActions.LogoutSuccess());
     return true;
   }
 }

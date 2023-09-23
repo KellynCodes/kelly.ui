@@ -16,17 +16,11 @@
     <Folder Include="src\app\extension\" />
     <Folder Include="src\app\router\implementations\" />
     <Folder Include="src\app\services\contact\" />
-    <Folder Include="src\app\state\auth\" />
-    <Folder Include="src\app\state\contact\" />
+    <Folder Include="src\app\pages\contact\state\" />
+    <Folder Include="src\app\modules\chat\chat\state\" />
     <Folder Include="src\app\state\shared\" />
     <Folder Include="src\app\worker\interfaces\" />
     <Folder Include="src\app\worker\implementation\" />
     <Folder Include="src\app\worker\utils\" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptConfiguration Remove="src\app\state\chat\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="src\app\state\chat\**" />
   </ItemGroup>
 </Project>

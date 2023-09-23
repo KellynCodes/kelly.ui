@@ -5,25 +5,38 @@ import {
   HttpRequest,
   HttpHeaders,
 } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { localStorageToken } from './local.storage';
+import { Store } from '@ngrx/store';
+import { AppState } from '../state/app/app.state';
+import { exhaustMap, map, tap } from 'rxjs';
+import { selectToken } from '../modules/auth/state/auth.selector';
 
 @Injectable()
 export class JwtTokenInterceptor implements HttpInterceptor {
-  token!: string | null;
-  constructor(@Inject(localStorageToken) private localStorage: Storage) {
-    this.token = this.localStorage.getItem('token');
+  constructor(private store: Store<AppState>) {
   }
+
+  ngOnInit(): void {
+ 
+  }
+
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (this.token != null) {
-      request = request.clone({
-        headers: new HttpHeaders({ Authorization: `Bearer ${this.token}` }),
-      });
-  }
-      return next.handle(request);
+    return this.store.select(selectToken).pipe(
+      exhaustMap((token) => {
+        if (!token) {
+          return next.handle(request);
+        }
+
+        const clonedRequest = request.clone({
+          headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+        });
+
+        return next.handle(clonedRequest);
+      })
+    )
   }
 }

@@ -4,8 +4,10 @@ import { ContactDto } from '../../data/Dto/contact/contactDto';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
 import { TimeOut } from '../../services/utils/timeout.util';
-import { ContactRequest } from '../../state/contact/contact.action';
+import * as contactActions from './state/contact.action';
+import * as contactSelectors from './state/contact.selector';
 import * as sharedSelector from "../../state/shared/shared.selector";
+import * as sharedAction from "../../state/shared/shared.action";
 
 @Component({
   selector: 'kelly-contact',
@@ -17,6 +19,7 @@ export class ContactComponent {
   errorMessage!: string | null;
   IsLoading$ = this.store.select(sharedSelector.getLoading);
   errorMessage$ = this.store.select(sharedSelector.getErrorMessage);
+  successMessage$ = this.store.select(contactSelectors.selectContactResponseMessage);
 
   constructor(
     private store: Store<AppState>,
@@ -38,9 +41,9 @@ export class ContactComponent {
       this.timeoutUtil.setTimeOut(3000, this.errorMessage);
       return;
     }
-    console.log(this.contactForm.value);
     const model: ContactDto = this.contactForm.value;
-    this.store.dispatch(ContactRequest(model));
+    this.store.dispatch(sharedAction.setLoadingSpinner({ IsLoading: true }));
+    this.store.dispatch(contactActions.ContactRequest(model));
   }
 
 }

@@ -1,13 +1,13 @@
 import { Actions, createEffect, ofType } from "@ngrx/effects";
-import { AuthService } from "../../services/auth/auth.service";
 import * as AuthActions from "./auth.action";
 import { catchError, exhaustMap, finalize, map, of, tap } from "rxjs";
-import { JwtService } from "../../services/utils/jwt.service";
-import { UserDto } from "../../data/Dto/user/user.dto";
 import { Injectable } from "@angular/core";
-import { setErrorMessage, setLoadingSpinner } from "../shared/shared.action";
-import { AppState } from "../app/app.state";
 import { Store } from "@ngrx/store";
+import { AuthService } from "../../../services/auth/auth.service";
+import { AppState } from "../../../state/app/app.state";
+import { JwtService } from "../../../services/utils/jwt.service";
+import { setErrorMessage, setLoadingSpinner } from "../../../state/shared/shared.action";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthEffect {
@@ -15,20 +15,20 @@ export class AuthEffect {
     private actions$: Actions,
     private store: Store<AppState>,
     private authService: AuthService,
+    private router: Router,
     private jwtService: JwtService) { }
 
   loginRequest$ = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.LoginRequest),
     exhaustMap((action) =>
       this.authService.Login(action.credentails).pipe(
-        map((loginSuccessResponse) => {
-          const user: { IsSuccessful: boolean, data: UserDto } = this.jwtService.decodeJwtToken(loginSuccessResponse.data?.accessToken!);
-          loginSuccessResponse.data!.user = user.data;
-          return AuthActions.LoginSuccess({ loginSuccessResponse })
+        map((res) => {
+          const user = this.jwtService.decodeJwtToken(res.data!);
+          return AuthActions.LoginSuccess(res.data!);
         }
         ),
         catchError((error) => {
-          return of(AuthActions.LoginFailure({ error: error.error }));
+          return of(AuthActions.AuthFailure({ error: error.error }));
           }
         ),
       finalize(() => {
@@ -37,18 +37,19 @@ export class AuthEffect {
       ),
     )));
 
+
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
     ofType(AuthActions.LoginSuccess),
-      tap((({ loginSuccessResponse }) => {
-        this.jwtService.decodeJwtToken(loginSuccessResponse.data?.accessToken!);
-        location.assign('/');
+      map((data => {
+        this.router.navigateByUrl("/");
     }))
     ), {dispatch: false})
 
+
   loginFailure$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActions.LoginFailure),
+      ofType(AuthActions.AuthFailure),
       tap(((({ error }) => {
         this.store.dispatch(setErrorMessage({message: error.message}));
         setTimeout(() => {

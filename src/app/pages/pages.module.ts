@@ -9,7 +9,7 @@ import { ContactComponent } from './contact/contact.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../modules/material/material.module';
 import { ComponentsModule } from '../components/components.module';
-
+import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
 
 
 @NgModule({
@@ -25,7 +25,8 @@ import { ComponentsModule } from '../components/components.module';
     CommonModule,
     RouterModule,
     MaterialModule,
-    ComponentsModule
+    ComponentsModule,
+    MdbCarouselModule,
   ],
   exports:[HomeComponent]
 })

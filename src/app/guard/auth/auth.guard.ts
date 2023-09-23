@@ -1,13 +1,19 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { JwtService } from '../../services/utils/jwt.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app/app.state';
+import { map} from 'rxjs';
+import * as fromAuth from "../../modules/auth/state/auth.selector";
 
 export const authGuard: CanActivateFn = (route, state) => {
-  const jwtService = inject(JwtService);
   const router = inject(Router);
-  const { IsSuccessful, user } = jwtService.getUser;
-  if (IsSuccessful && user != null) {
-    return true;
-  }
-  return router.navigateByUrl('/auth/login');
+  const store = inject(Store<AppState>);
+  return store.select(fromAuth.selectToken).pipe(
+    map(token => {
+      if (!token) {
+        return router.createUrlTree(["/auth/login"]);
+      }
+      return true;
+    }),
+  )
 };

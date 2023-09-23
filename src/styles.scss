@@ -1,0 +1,32 @@
+@import "node_modules/mdb-angular-ui-kit/assets/scss/mdb.scss";
+
+.mat-headline-3, .mat-headline-1 {
+  font-weight: 500 !important;
+}
+
+body {
+  font-family: "Open Sans", sans-serif !important;
+  color: #444444 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Raleway", sans-serif !important;
+}
+
+.carousel-indicators {
+}
+
+.carousel-indicators button {
+  margin-bottom: -6rem !important;
+  background-color: #34b7a7 !important; 
+}
+
+.carousel-indicators .active {
+  background-color: #808080 !important;
+}
+

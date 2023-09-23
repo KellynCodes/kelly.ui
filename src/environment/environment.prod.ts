@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://three23mediprof.onrender.com',
+  apiUrl: 'https://api-kelly.onrender.com/api/v1',
 };

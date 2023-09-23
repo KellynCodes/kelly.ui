@@ -2,42 +2,48 @@ import { Inject, Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
 import { UserDto } from '../../data/Dto/user/user.dto';
 import { localStorageToken } from '../../extension/local.storage';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../state/app/app.state';
+import { GetUserSuccess, LoginSuccess } from '../../modules/auth/state/auth.action';
+import { LoginSuccessDto } from '../auth/Dto/LoginSuccessDto';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JwtService {
-  constructor(@Inject(localStorageToken) private localStorage: Storage) {}
-  token: string | null = this.localStorage.getItem('token');
-  user: any | null = this.localStorage.getItem('user');
+  constructor(
+    @Inject(localStorageToken) private localStorage: Storage,
+    private store: Store<AppState>
+  ) { }
+  private user: any | null = this.localStorage.getItem('authUser');
 
- public get getToken(): { IsSuccessful: boolean; token: string | null } {
-    if (this.token == null) {
-      return { IsSuccessful: false, token: null };
-    }
-    return { IsSuccessful: true, token: this.token };
+  public get getUser(): UserDto {
+    const authUser: LoginSuccessDto = JSON.parse(this.user);
+    return authUser?.user!;
   }
 
-  public get getUser(): { IsSuccessful: boolean; user: UserDto | null } {
-    if (this.user == null) {
-      return { IsSuccessful: false, user: null };
-    }
-    const user: UserDto = JSON.parse(this.user);
-    return { IsSuccessful: true, user: user };
+  public get CheckUser(): UserDto {
+    const authUser: LoginSuccessDto = JSON.parse(this.user);
+    this.store.dispatch(GetUserSuccess(authUser))
+    return authUser?.user!;
   }
 
-  public decodeJwtToken(accessToken: string): { IsSuccessful: boolean; data: any } {
+  public decodeJwtToken(
+    loginSuccess: LoginSuccessDto): UserDto | null {
     try {
-      if (accessToken == "" || accessToken == null) {
-        return { IsSuccessful: false, data: null };
+      const decodedToken: UserDto = jwt_decode(loginSuccess.accessToken!);
+      const userSession: LoginSuccessDto = {
+        accessToken: loginSuccess.accessToken,
+        refreshToken: loginSuccess.refreshToken,
+        expiryTimeStamp: loginSuccess.expiryTimeStamp,
+        user: decodedToken
       }
-      this.localStorage.setItem("token", accessToken);
-      const decodedToken: UserDto = jwt_decode(accessToken);
-      const user: string = JSON.stringify(decodedToken);
-      this.localStorage.setItem("user", user);
-      return { IsSuccessful: true, data: decodedToken };
+      const authUser: string = JSON.stringify(userSession);
+      this.localStorage.setItem("authUser", authUser);
+      return decodedToken;
     } catch (error) {
-      return { IsSuccessful: false, data: null };
+      console.log(error);
+      return null;
     }
   }
 }
