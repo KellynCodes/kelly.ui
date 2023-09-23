@@ -2,3 +2,7 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+[build]
+  command = "./node_modules/.bin/ng build --prod"
+  publish = "dist/client"
