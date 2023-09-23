@@ -43,7 +43,7 @@ export class ChatComponent {
 
   sendMessage() {
     const chat: ChatDto = {
-      userId: this.jwtService.getUser?.userId!,
+      userId: this.jwtService.getUser.userId!,
       username: this.userName!,
       message: this.chatForm.value.message
     };

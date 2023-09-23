@@ -25,18 +25,6 @@ export class JwtTokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.store.select(selectToken).pipe(
-      exhaustMap((token) => {
-        if (!token) {
-          return next.handle(request);
-        }
-
-        const clonedRequest = request.clone({
-          headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
-        });
-
-        return next.handle(clonedRequest);
-      })
-    )
+    return next.handle(request);
   }
 }

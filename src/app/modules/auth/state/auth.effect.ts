@@ -23,6 +23,7 @@ export class AuthEffect {
     exhaustMap((action) =>
       this.authService.Login(action.credentails).pipe(
         map((res) => {
+          debugger;
           const user = this.jwtService.decodeJwtToken(res.data!);
           return AuthActions.LoginSuccess(res.data!);
         }
@@ -54,6 +55,7 @@ export class AuthEffect {
         this.store.dispatch(setErrorMessage({message: error.message}));
         setTimeout(() => {
           this.store.dispatch(setErrorMessage({message: null}));
+          this.store.dispatch(setLoadingSpinner({IsLoading: false}));
         }, 3000)
       })))
     ), { dispatch: false })

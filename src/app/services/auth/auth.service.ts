@@ -23,6 +23,7 @@ export class AuthService {
 
   Login(model: LoginDto): Observable<HttpResponse<LoginSuccessDto>> {
     if (model == null) {
+      debugger;
       throw new Error('model value cannot be null');
     }
     const url: string = `${environment.apiUrl}/auth/sign-in`;
