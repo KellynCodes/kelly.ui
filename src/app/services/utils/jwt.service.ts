@@ -23,6 +23,7 @@ export class JwtService {
   }
 
   public get CheckUser(): UserDto {
+    debugger;
     const user: any | null = this.localStorage.getItem("authUser");
     const authUser: LoginSuccessDto = JSON.parse(user);
     this.store.dispatch(GetUserSuccess(authUser))
