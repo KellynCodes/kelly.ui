@@ -17,10 +17,6 @@ export class JwtTokenInterceptor implements HttpInterceptor {
   constructor(private store: Store<AppState>) {
   }
 
-  ngOnInit(): void {
- 
-  }
-
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
@@ -28,3 +24,17 @@ export class JwtTokenInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 }
+/*
+return this.store.select(selectToken).pipe(
+  exhaustMap((token) => {
+    if (!token) {
+      return next.handle(request);
+    }
+
+    const clonedRequest = request.clone({
+      headers: new HttpHeaders({ Authorization: `Bearer ${token}` }),
+    });
+
+    return next.handle(clonedRequest);
+  })
+)*/

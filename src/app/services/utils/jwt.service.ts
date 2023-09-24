@@ -26,9 +26,9 @@ export class JwtService {
   }
 
   public get CheckUser(): UserDto {
-    debugger;
     const authUser: LoginSuccessDto = JSON.parse(this.user);
     this.store.dispatch(GetUserSuccess(authUser))
+    console.log(authUser);
     return authUser?.user!;
   }
 
