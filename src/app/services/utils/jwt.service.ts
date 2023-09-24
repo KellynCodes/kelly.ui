@@ -20,13 +20,12 @@ export class JwtService {
     private timeout: TimeOut
   ) { }
 
-  public get getUser(): UserDto {
+  public getUser(): UserDto {
     const authUser: LoginSuccessDto = JSON.parse(this.user);
     return authUser?.user!;
   }
 
-  public get CheckUser(): UserDto {
-    debugger;
+  public CheckUser(): UserDto {
     const authUser: LoginSuccessDto = JSON.parse(this.user);
     this.store.dispatch(GetUserSuccess(authUser))
     return authUser?.user!;

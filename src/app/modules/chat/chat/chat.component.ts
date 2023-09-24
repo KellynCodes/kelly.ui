@@ -17,7 +17,7 @@ export class ChatComponent {
   public chatForm: FormGroup;
   public message!: string;
   public IsTyping: boolean = false;
-  public userName = this.jwtService.getUser?.unique_name[0]!;
+  public userName = this.jwtService.getUser()?.unique_name[0]!;
 
 
   constructor(
@@ -43,7 +43,7 @@ export class ChatComponent {
 
   sendMessage() {
     const chat: ChatDto = {
-      userId: this.jwtService.getUser.userId!,
+      userId: this.jwtService.getUser().userId!,
       username: this.userName!,
       message: this.chatForm.value.message
     };
