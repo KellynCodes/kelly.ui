@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 import { selectMobile } from '../../../state/shared/shared.selector';
 import { setIsMobile } from '../../../state/shared/shared.action';
+import { JwtService } from '../../../services/utils/jwt.service';
 
 @Component({
   selector: 'kelly-navbar',
@@ -13,12 +14,16 @@ export class NavbarComponent {
   IsToggled: boolean = false;
   IsMobile$ = this.store.select(selectMobile);
 
-  constructor(private store: Store<AppState>) { }
+  constructor(
+    private store: Store<AppState>,
+    private jwtService: JwtService
+  ) { }
   get toggleNav(): boolean {
     return this.IsToggled = !this.IsToggled;
   }
 
   ngOnInit(): void {
+    this.jwtService.CheckUser;
     this.handleWindowResize();
   }
 

@@ -6,26 +6,28 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
 import { GetUserSuccess } from '../../modules/auth/state/auth.action';
 import { LoginSuccessDto } from '../auth/Dto/LoginSuccessDto';
+import { setErrorMessage } from '../../state/shared/shared.action';
+import { TimeOut } from './timeout.util';
 
 @Injectable({
   providedIn: 'root',
 })
 export class JwtService {
+    private user: any | null = this.localStorage.getItem("authUser");
   constructor(
     @Inject(localStorageToken) private localStorage: Storage,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private timeout: TimeOut
   ) { }
 
   public get getUser(): UserDto {
-  const user: any | null = this.localStorage.getItem('authUser');
-    const authUser: LoginSuccessDto = JSON.parse(user);
+    const authUser: LoginSuccessDto = JSON.parse(this.user);
     return authUser?.user!;
   }
 
   public get CheckUser(): UserDto {
     debugger;
-    const user: any | null = this.localStorage.getItem("authUser");
-    const authUser: LoginSuccessDto = JSON.parse(user);
+    const authUser: LoginSuccessDto = JSON.parse(this.user);
     this.store.dispatch(GetUserSuccess(authUser))
     return authUser?.user!;
   }
@@ -44,7 +46,10 @@ export class JwtService {
       this.localStorage.setItem("authUser", authUser);
       return decodedToken;
     } catch (error) {
-      console.log(error);
+      setTimeout(() => {
+        this.store.dispatch(setErrorMessage({ message: "Something unexpected happened while saving your session please try again." }));
+      }, 3000);
+      // todo log the error to a file.
       return null;
     }
   }
