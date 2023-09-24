@@ -17,13 +17,14 @@ export class NavbarComponent {
   constructor(
     private store: Store<AppState>,
     private jwtService: JwtService
-  ) { }
+  ) {
+    this.jwtService.CheckUser;
+  }
   get toggleNav(): boolean {
     return this.IsToggled = !this.IsToggled;
   }
 
   ngOnInit(): void {
-    this.jwtService.CheckUser;
     this.handleWindowResize();
   }
 
