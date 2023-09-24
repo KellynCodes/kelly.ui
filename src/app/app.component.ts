@@ -2,23 +2,25 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { SignalRService } from './services/signalr/signalr.service';
 import { Store } from '@ngrx/store';
 import { AppState } from './state/app/app.state';
+import { JwtService } from './services/utils/jwt.service';
 
 @Component({
   selector: 'app-root',
   templateUrl:'./app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   private worker!: Worker;
 
   constructor(
     private signrService: SignalRService,
-    private store: Store<AppState>,
+    private jwtService: JwtService
   ) {
   
   }
 
   ngOnInit(): void {
+    this.jwtService.CheckUser();
     this.runWorker(100);
     this.signrService.startConnection();
   }
