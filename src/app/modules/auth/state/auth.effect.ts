@@ -23,7 +23,6 @@ export class AuthEffect {
     exhaustMap((action) =>
       this.authService.Login(action.credentails).pipe(
         map((res) => {
-          debugger;
           const user = this.jwtService.decodeJwtToken(res.data!);
           return AuthActions.LoginSuccess(res.data!);
         }

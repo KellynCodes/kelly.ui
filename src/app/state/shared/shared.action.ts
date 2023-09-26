@@ -6,3 +6,5 @@ export const setErrorMessage = createAction("[shared sate] set error message", p
 export const setSuccessMessage = createAction("[shared sate] set sucess message", props<{ message: string | null }>())
 
 export const setIsMobile = createAction("[shared sate] set mobile", props<{IsMobile: boolean}>())
+
+export const scrollToTop = createAction('[UI] Scroll To Top');
