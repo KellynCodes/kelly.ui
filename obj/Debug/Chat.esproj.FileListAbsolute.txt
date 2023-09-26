@@ -1,2 +1,4 @@
 C:\Users\KELLYNCODES\source\repos\ChatApp\Chat\obj\Debug\Chat.esproj.SuggestedBindingRedirects.cache
 C:\Users\KELLYNCODES\source\repos\ChatApp\Chat\obj\Debug\Chat.esproj.CoreCompileInputs.cache
+C:\Users\KELLYNCODES\source\projects\Kelly\client\obj\Debug\Chat.esproj.SuggestedBindingRedirects.cache
+C:\Users\KELLYNCODES\source\projects\Kelly\client\obj\Debug\Chat.esproj.CoreCompileInputs.cache
