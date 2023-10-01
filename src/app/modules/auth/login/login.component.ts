@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { LoginDto } from '../../../data/Dto/auth/login.dto';
-import { AppState } from '../../../state/app/app.state';
-import * as SharedAction from "../../../state/shared/shared.action";
-import * as sharedSelector from "../../../state/shared/shared.selector";
+import { LoginDto } from '../../../services/auth/Dto/login.dto';
 import { TimeOut } from '../../../services/utils/timeout.util';
-import { LoginRequest } from '../state/auth.action';
+import { AppState } from '../../../state/app/app.state';
+import * as authActions from '../state/auth/auth.action';
+import * as authSelectors from '../state/auth/auth.selector';
 
 @Component({
   selector: 'kelly-login',
@@ -22,8 +21,8 @@ export class LoginComponent {
   hidePassword!: boolean;
   loginForm!: FormGroup;
   errorMessage!: string | null;
-  IsLoading$ = this.store.select(sharedSelector.getLoading);
-  errorMessage$ = this.store.select(sharedSelector.getErrorMessage);
+  IsLoading$ = this.store.select(authSelectors.getLoading);
+  errorMessage$ = this.store.select(authSelectors.getErrorMessage);
 
 
   ngOnInit(): void {
@@ -42,8 +41,15 @@ export class LoginComponent {
       this.timeoutUtil.setTimeOut(3000, this.errorMessage);
       return;
     }
-    const loginCredentials: LoginDto = { email: this.loginForm.value.email, password: this.loginForm.value.password};
-    this.store.dispatch(SharedAction.setLoadingSpinner({IsLoading: true }));
-    this.store.dispatch(LoginRequest({ credentails: loginCredentials }));
+    const loginCredentials: LoginDto = { email: this.loginForm.value.email, password: this.loginForm.value.password };
+    this.store.dispatch(authActions.setAuthLoadingSpinner({
+      IsLoading: true,
+      errorMessage: null,
+      expiryTimeStamp: null,
+      accessToken: null,
+      refreshToken: null,
+      user: null
+    }));
+    this.store.dispatch(authActions.LoginRequest({ credentails: loginCredentials }));
   }
 }

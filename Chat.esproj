@@ -11,10 +11,11 @@
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\Chat</BuildOutputFolder>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="src\app\data\Dto\contact\" />
+    <Folder Include="src\app\services\contact\Dto\" />
+    <Folder Include="src\app\data\enum\" />
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\extension\" />
-    <Folder Include="src\app\services\contact\" />
+    <Folder Include="src\app\modules\auth\state\file\" />
     <Folder Include="src\app\pages\contact\state\" />
     <Folder Include="src\app\modules\chat\chat\state\" />
     <Folder Include="src\app\state\shared\" />

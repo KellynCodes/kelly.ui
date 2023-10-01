@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import * as sharedState  from '../../../state/shared/shared.action';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state/app/app.state';
 
@@ -11,7 +10,4 @@ import { AppState } from '../../../state/app/app.state';
 export class FooterComponent {
   constructor(private store: Store<AppState>) { }
 
-  scrollTop() {
-    this.store.dispatch(sharedState.scrollToTop());
-  }
 }

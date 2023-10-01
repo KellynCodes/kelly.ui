@@ -3,7 +3,7 @@ export interface UserDto {
 
   unique_name: string[];
 
-  profileURL: string;
+  avaterUrl: string;
 
   email: string;
 

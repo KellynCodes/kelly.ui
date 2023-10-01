@@ -1,6 +1,7 @@
 import { createAction, createActionGroup, props } from "@ngrx/store";
-import { LoginDto } from "../../../data/Dto/auth/login.dto";
-import { LoginSuccessDto } from "../../../services/auth/Dto/LoginSuccessDto";
+import { LoginSuccessDto } from "../../../../services/auth/Dto/LoginSuccessDto";
+import { LoginDto } from "../../../../services/auth/Dto/login.dto";
+
 
 export const LoginRequest = createAction(
   '[Auth] Login Request',
@@ -22,5 +23,15 @@ export const AuthFailure = createAction(
   '[Auth] auth failure',
   props<{ error: any }>(),
 );
+
+export const setAuthLoadingSpinner = createAction(
+  "[Auth] set loading spinner",
+  props<LoginSuccessDto>()
+)
+
+export const setAuthErrorMessage = createAction(
+  "[Auth] set error message",
+  props<LoginSuccessDto>()
+)
 
 export const LogoutSuccess = createAction('[Auth] Logout User');

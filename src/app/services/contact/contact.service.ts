@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ContactDto } from '../../data/Dto/shared/contact.dto';
 import { HttpResponse } from '../../data/Dto/shared/http.response.dto';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
+import { ContactDto } from './Dto/contactDto';
 
 @Injectable({
   providedIn: 'root'

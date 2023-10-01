@@ -1,4 +1,4 @@
-import { UserDto } from '../../data/Dto/user/user.dto';
+import { UserDto } from '../../services/user/Dto/user.dto';
 
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
@@ -7,7 +7,7 @@ import { JwtService } from '../../services/utils/jwt.service';
 export const roleGuard: CanActivateFn = (route, state) => {
   const jwtService = inject(JwtService);
   const router = inject(Router);
-  const {IsSuccessful, user } = jwtService.getUser;
+  const user = jwtService.getUser;
   if (user == null) {
     return router.parseUrl('/login');
   }

@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ContactDto } from '../../data/Dto/contact/contactDto';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
 import { TimeOut } from '../../services/utils/timeout.util';
@@ -8,6 +7,7 @@ import * as contactActions from './state/contact.action';
 import * as contactSelectors from './state/contact.selector';
 import * as sharedSelector from "../../state/shared/shared.selector";
 import * as sharedAction from "../../state/shared/shared.action";
+import { ContactDto } from '../../services/contact/Dto/contactDto';
 
 @Component({
   selector: 'kelly-contact',

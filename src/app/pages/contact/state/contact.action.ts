@@ -1,6 +1,6 @@
 import { createAction, props } from "@ngrx/store";
 import { HttpResponse } from "../../../data/Dto/shared/http.response.dto";
-import { ContactDto } from "../../../data/Dto/contact/contactDto";
+import { ContactDto } from "../../../services/contact/Dto/contactDto";
 
 
 export const ContactRequest = createAction(
