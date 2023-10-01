@@ -1,15 +1,20 @@
-import { Component, Inject } from '@angular/core';
-import { HttpStatusCode } from '@angular/common/http';
+import { SignUpDto } from '../../../services/auth/Dto/signup.dto';
+import { Component, HostListener, Inject } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Role } from '../../../data/enum/role';
 import { localStorageToken } from '../../../extension/local.storage';
 import { AuthService } from '../../../services/auth/auth.service';
-import { HttpResponse } from '../../../data/Dto/shared/http.response.dto';
+import { AppState } from '../../../state/app/app.state';
+import * as selectFileUploadStates from '../state/file/file.selector';
+import * as selectSignUpStates from '../state/signup/signup.selector';
+import * as signUpActions from '../state/signup/signup.action';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 
 @Component({
   selector: 'kelly-signup',
@@ -18,40 +23,64 @@ import { HttpResponse } from '../../../data/Dto/shared/http.response.dto';
 })
 export class SignupComponent {
   IsRememberMe: boolean = false;
-  error!: HttpResponse | null;
-  IsFetching!: boolean;
-  UserImgPath!: string;
-  errorMessage!: any;
-  successMessage!: any;
-  uploadingImage!: boolean;
-  uploaded!: boolean;
+  userImgPath!: string;
+  imagePreviewLink: string | null = null;
+  file!: File;
+  croppedFile!: Blob;
+  imageChangedEvent!: Event;
   hidePassword!: boolean;
-  uploadError!: string;
+  hasUnsavedChanges!: boolean;
   regForm!: FormGroup;
 
+  // file upload
+  uploadMessage$ = this.store.select(
+    selectFileUploadStates.getFileUploadErrorMessage
+  );
+  isUploading$ = this.store.select(selectFileUploadStates.IsUploading);
+  isUploaded$ = this.store.select(selectFileUploadStates.IsUploaded);
+
+  // signup
+  isSigningUp$ = this.store.select(selectSignUpStates.getSignUpIsLoading);
+  signUpMessage$ = this.store.select(selectSignUpStates.getSignUpMessage);
+
   constructor(
-    private authService: AuthService,
     @Inject(localStorageToken) private localStorage: Storage,
-    private router: Router
+    private store: Store<AppState>,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.regForm = new FormGroup({
-      username: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
-        Validators.required,
-        Validators.minLength(8),
-      ]),
-    });
+    this.regForm = new FormGroup(
+      {
+        UserName: new FormControl('', Validators.required),
+        Email: new FormControl('', [Validators.required, Validators.email]),
+        Password: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+        confirmPassword: new FormControl('', [
+          Validators.required,
+          Validators.minLength(8),
+        ]),
+      },
+      { validators: this.authService.mustMatch('Password', 'confirmPassword') }
+    );
   }
-  setTimeOut(timeOut: number = 2000): void {
-    setTimeout(() => {
-      this.errorMessage = null;
-      this.successMessage = null;
-      this.error = null;
-    }, timeOut);
+
+  ngOnDestroy(): void {
+    if (this.regForm.touched) {
+      this.hasUnsavedChanges = true;
+    } else {
+      this.hasUnsavedChanges = false;
+    }
   }
+
+  @HostListener('window:beforeunload', ['$event'])
+  unloadNotification($event: any): void {
+    confirm('You have unsaved changes! Are you sure you want to leave?');
+    console.log('reloading');
+  }
+
   getControl(name: string): AbstractControl | null {
     return this.regForm.get(name);
   }
@@ -64,67 +93,45 @@ export class SignupComponent {
     this.IsRememberMe = !this.IsRememberMe;
   }
 
-  onFileSelect(event: any): void {
-    if (event.target.files.length <= 0) {
-      return;
+  onFileSelect(event: Event): void {
+    this.imageChangedEvent = event;
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.file = input.files[0];
     }
-    const image: File = event.target.files[0];
-    this.uploadFile(image);
-    this.UserImgPath = this.localStorage.getItem('UserImgPath')!;
   }
 
-  uploadFile(file: File) {
-    this.uploadingImage = true;
-    const formData: FormData = new FormData();
-    formData.append('file', file, file.name);
-
-    this.authService.postImage(formData).subscribe({
-      next: (res) => {
-        if (res.statusCode == HttpStatusCode.Ok) {
-          this.localStorage.removeItem('UserImgPath');
-          this.localStorage.setItem('UserImgPath', res.data!.ImgPath);
-          this.uploaded = true;
-          this.uploadingImage = false;
-          this.successMessage = `${res.message}`;
-        } else {
-          this.uploaded = false;
-          this.uploadingImage = false;
-          this.uploadError = `${res.message}`;
-        }
-      },
-      error: (err) => {
-        console.log(err);
-        this.errorMessage = err.error.message.message;
-        this.uploadingImage = false;
-        this.uploaded = false;
-        this.uploadError = err.error.message.message;
-      },
-    });
+  cropImage(event: ImageCroppedEvent): void {
+    this.croppedFile = event.blob!;
+    this.imagePreviewLink = event.objectUrl!;
   }
+
+  loadImage(): void {}
+
+  initCropper(): void {}
+
+  loadImageFailed(): void {}
 
   onSubmit(): void {
+    console.log(this.regForm.value);
     if (!this.regForm.valid) {
-      this.errorMessage = 'Fill all the required field.';
-      this.setTimeOut(3000);
       return;
     }
-    this.IsFetching = true;
-    this.regForm.value.profileURL = this.localStorage.getItem('UserImgPath')!;
-    this.regForm.value.role = 'user';
-    this.authService.signUp(this.regForm.value).subscribe({
-      next: (response) => {
-        if (response.data !== null) {
-          this.IsFetching = false;
-          this.router.navigate(['/login']);
-        }
-        this.IsFetching = false;
-        this.errorMessage = 'Sorry something unexpected happened!.';
-      },
-      error: (err) => {
-        this.error = err.error.message;
-        this.IsFetching = false;
-        this.setTimeOut(3000);
-      },
-    });
+
+    const model: SignUpDto = {
+      ...this.regForm.value,
+    };
+    const formData: FormData = new FormData();
+    formData.append('Email', model.Email);
+    formData.append('UserName', model.UserName);
+    formData.append('Password', model.Password);
+    formData.append('ConfirmPassword', model.confirmPassword);
+    if (this.croppedFile != null) {
+      formData.append('ProfileImage', this.croppedFile, this.file?.name);
+    }
+    console.log(model);
+    const file = formData.get('ProfileImage');
+    console.log(file);
+    this.store.dispatch(signUpActions.RegistrationRequest({ file: formData }));
   }
 }

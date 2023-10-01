@@ -1,5 +1,12 @@
 import { createReducer, on } from "@ngrx/store";
-import { AuthFailure, GetUserSuccess, LoginSuccess, LogoutSuccess } from "./auth.action";
+import {
+  AuthFailure,
+  GetUserSuccess,
+  LoginSuccess,
+  LogoutSuccess,
+  setAuthErrorMessage,
+  setAuthLoadingSpinner
+} from "./auth.action";
 import { authState } from "./auth.state";
 
 const _authReducer = createReducer(
@@ -8,6 +15,8 @@ const _authReducer = createReducer(
     return {
       ...state,
       user: action.user,
+      IsLoading: false,
+      errorMessage: null,
       accessToken: action.accessToken,
       expiryTimeStamp: action.expiryTimeStamp,
       refreshToken: action.refreshToken
@@ -18,13 +27,15 @@ const _authReducer = createReducer(
     return {
       ...state,
       user: action.user,
+      errorMessage: null,
+      IsLoading: false,
       accessToken: action.accessToken,
       expiryTimeStamp: action.expiryTimeStamp,
       refreshToken: action.refreshToken
     };
   }),
 
-  on(LogoutSuccess, (state, action) => {
+  on(LogoutSuccess, (state) => {
     return {
       ...state,
       user: null,
@@ -40,6 +51,29 @@ const _authReducer = createReducer(
       message: error.message,
       statusCode: error.statusCode,
       data: null
+    };
+  }),
+
+  on(setAuthLoadingSpinner, (state, { IsLoading }) => {
+    return {
+      ...state,
+      IsLoading: IsLoading,
+      accessToken: null,
+      expiryTimeStamp: null,
+      refreshToken: null,
+      user: null,
+    };
+  }),
+
+  on(setAuthErrorMessage, (state, {errorMessage }) => {
+    return {
+      ...state,
+      errorMessage: errorMessage,
+      IsLoading: false,
+      accessToken: null,
+      expiryTimeStamp: null,
+      refreshToken: null,
+      user: null,
     };
   }),
 

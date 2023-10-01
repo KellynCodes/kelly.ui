@@ -7,19 +7,18 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ComponentsModule } from '../../components/components.module';
 import { EffectsModule } from '@ngrx/effects';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
-  declarations: [
-    LoginComponent,
-    SignupComponent,
-  ],
+  declarations: [LoginComponent, SignupComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
+    ImageCropperModule,
     MaterialModule,
     ComponentsModule,
-    EffectsModule.forFeature()
-  ]
+    EffectsModule.forFeature(),
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

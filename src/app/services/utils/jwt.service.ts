@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
 import jwt_decode from 'jwt-decode';
-import { UserDto } from '../../data/Dto/user/user.dto';
+import { UserDto } from '../user/Dto/user.dto';
 import { localStorageToken } from '../../extension/local.storage';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../state/app/app.state';
-import { GetUserSuccess } from '../../modules/auth/state/auth.action';
 import { LoginSuccessDto } from '../auth/Dto/LoginSuccessDto';
 import { setErrorMessage } from '../../state/shared/shared.action';
 import { TimeOut } from './timeout.util';
+import { GetUserSuccess } from '../../modules/auth/state/auth/auth.action';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +17,6 @@ export class JwtService {
   constructor(
     @Inject(localStorageToken) private localStorage: Storage,
     private store: Store<AppState>,
-    private timeout: TimeOut
   ) { }
 
   public getUser(): UserDto {

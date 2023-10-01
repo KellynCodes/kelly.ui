@@ -30,21 +30,12 @@ export class ContactEffect {
         finalize(() => {
           this.store.dispatch(setLoadingSpinner({ IsLoading: false }));
           setTimeout(() => {
-          this.store.dispatch(setErrorMessage({ message: null }));
+            this.store.dispatch(setErrorMessage({ message: null }));
+            this.store.dispatch(
+              ContactActions.ContactResponse({ res: { message: null, statusCode: null, data: null } })
+            );
           }, 3000)
         })
       ),
     )));
-
-
-  contactSucess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ContactActions.ContactResponse),
-      tap(((({ res }) => {
-        setTimeout(() => {
-          this.store.dispatch(
-            ContactActions.ContactResponse({ res: { message: null, statusCode: null, data: null } }));
-        }, 3000)
-      })))
-    ), { dispatch: false })
 }

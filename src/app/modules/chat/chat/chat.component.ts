@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { SignalRService } from '../../../services/signalr/signalr.service';
 import { ChatDto } from '../../../models/chat';
-import { UserDto } from '../../../data/Dto/user/user.dto';
 import { JwtService } from '../../../services/utils/jwt.service';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth/auth.service';
@@ -17,7 +16,7 @@ export class ChatComponent {
   public chatForm: FormGroup;
   public message!: string;
   public IsTyping: boolean = false;
-  public userName = this.jwtService.getUser()?.unique_name[0]!;
+  public userName!: string;
 
 
   constructor(
@@ -33,6 +32,7 @@ export class ChatComponent {
   }
 
   ngOnInit() {
+    this.userName = this.jwtService.getUser()?.unique_name[0]!;
     this.signalRService.addReceiveMessageListener((chat: ChatDto) => {
       this.chats.push(chat);
     });

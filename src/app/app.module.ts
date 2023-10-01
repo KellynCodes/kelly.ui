@@ -1,25 +1,24 @@
-import { TemplatePageTitleStrategy } from './extension/title.strategy';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppComponent } from './app.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { TitleStrategy } from '@angular/router';
-import { ClipboardModule } from '@angular/cdk/clipboard';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TitleStrategy } from '@angular/router';
+import { AppComponent } from './app.component';
+import { TemplatePageTitleStrategy } from './extension/title.strategy';
 
-import { AppRoutingModule } from './routes/app-routing.module';
-import { JwtTokenInterceptor } from './extension/http.interceptor';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { PagesModule } from './pages/pages.module';
-import { ComponentsModule } from './components/components.module';
-import { StoreModule } from '@ngrx/store';
-import { appReducer } from './state/app/app.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ComponentsModule } from './components/components.module';
+import { JwtTokenInterceptor } from './extension/http.interceptor';
+import { PagesModule } from './pages/pages.module';
 import { CustomSerializer } from './router/implementations/custom.serializer';
-import { AuthEffect } from './modules/auth/state/auth.effect';
-import { ContactEffect } from './pages/contact/state/contact.effect';
+import { AppRoutingModule } from './routes/app-routing.module';
+import { appEffects } from './state/app/app.effects';
+import { appReducer } from './state/app/app.reducer';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +31,7 @@ import { ContactEffect } from './pages/contact/state/contact.effect';
     HttpClientModule,
     ClipboardModule,
     StoreModule.forRoot(appReducer),
-    EffectsModule.forRoot([AuthEffect, ContactEffect]),
+    EffectsModule.forRoot(appEffects),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
@@ -45,4 +44,4 @@ import { ContactEffect } from './pages/contact/state/contact.effect';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

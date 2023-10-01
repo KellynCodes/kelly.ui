@@ -1,10 +1,10 @@
 import { environment } from '../../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserDto } from '../../data/Dto/user/user.dto';
 import { Observable } from 'rxjs';
-import { HttpResponse } from 'src/app/data/Dto/auth/http.response';
-import { PaginationQueryDto } from '../../data/Dto/request.query.dto';
+import { PaginationQueryDto } from '../../data/Dto/shared/request.query.dto';
+import { HttpResponse } from '../../data/Dto/shared/http.response.dto';
+import { UserDto } from './Dto/user.dto';
 
 @Injectable({
   providedIn: 'root',

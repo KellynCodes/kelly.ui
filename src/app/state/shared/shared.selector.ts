@@ -8,6 +8,7 @@ export const getSharedState = createFeatureSelector<SharedState>(SHARED_STATE_NA
 export const getLoading = createSelector(getSharedState, (state) => state?.IsLoading);
 
 export const getErrorMessage = createSelector(getSharedState, (state) => state?.errorMessage);
+
 export const getSuccessMessage = createSelector(getSharedState, (state) => state?.successMessage);
 
 export const selectMobile = createSelector(getSharedState, (state) => state?.IsMobile );
