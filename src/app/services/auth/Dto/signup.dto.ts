@@ -1,10 +1,10 @@
 import { Role } from '../../../data/enum/role';
 
 export interface SignUpDto {
-  Email: string;
-  UserName: string;
-  Password: string;
-  ProfileImage: FormData;
+  email: string;
+  userName: string;
+  password: string;
+  profileImage: FormData;
   confirmPassword: string;
-  Role: Role;
+  role: Role;
 }

@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { UploadFileResponseDto } from '../../../../services/auth/Dto/UploadFileResponseDto';
+import { UploadFileResponseDto } from '../../services/file/Dto/UploadFileResponseDto';
 
 export const FILE_STATE_NAME = 'file';
 export const FILE_STATE_UPLOAD_NAME = 'file-upload';

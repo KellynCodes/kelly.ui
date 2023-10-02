@@ -5,13 +5,16 @@ import { AuthService } from '../../../../services/auth/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../state/app/app.state';
 import { Injectable } from '@angular/core';
+import { HttpStatusCode } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class SignUpEffect {
   constructor(
     private actions$: Actions,
     private authService: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {}
 
   SignUpRequest$ = createEffect(() =>
@@ -26,16 +29,30 @@ export class SignUpEffect {
             return of(signUpActions.RegistrationFailure(error));
           }),
           finalize(() => {
-            this.store.dispatch(
-              signUpActions.RegistrationFailure({
-                data: { IsLoading: false },
-                message: null,
-                statusCode: null,
-              })
-            );
+            setTimeout(() => {
+              this.store.dispatch(signUpActions.RegistrationFired(
+                {
+                  message: null,
+                  isSuccessful: false,
+                  data: { IsLoading: false }
+                }))
+            }, 5000);
           })
         );
       })
     )
   );
+
+  SignUpSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(signUpActions.RegistrationSuccess),
+      map((data => {
+        if (data.isSuccessful) {
+          setTimeout(() => {
+            this.router.navigateByUrl("/auth/login");
+          }, 3000);
+        }
+      }))
+    ), { dispatch: false })
+
 }

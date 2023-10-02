@@ -1,5 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import {
+    AbstractControl,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+} from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environment/environment';
@@ -8,15 +14,8 @@ import { localStorageToken } from '../../extension/local.storage';
 import * as authActions from '../../modules/auth/state/auth/auth.action';
 import { AppState } from '../../state/app/app.state';
 import { LoginSuccessDto } from './Dto/LoginSuccessDto';
-import { UploadFileResponseDto } from './Dto/UploadFileResponseDto';
 import { LoginDto } from './Dto/login.dto';
-import { SignUpDto } from './Dto/signup.dto';
-import {
-  AbstractControl,
-  FormGroup,
-  ValidationErrors,
-  ValidatorFn,
-} from '@angular/forms';
+import { VerifyEmailDto } from './Dto/verify-email.dto';
 
 @Injectable({
   providedIn: 'root',
@@ -41,16 +40,17 @@ export class AuthService {
     if (model == null) {
       throw new Error('model value cannot be null');
     }
-    console.log(model);
     const url: string = `${environment.apiUrl}/auth/sign-up`;
     return this.http.post<HttpResponse>(url, model);
   }
 
-  postFile(file: FormData, userId: string): Observable<UploadFileResponseDto> {
-    const folder = file.get('folder');
-    const url: string = `${environment.apiUrl}/files/upload?folder=${folder}?userId=${userId}`;
-    return this.http.post<UploadFileResponseDto>(url, file);
+
+  verifyEmail(payload: VerifyEmailDto): Observable<HttpResponse<VerifyEmailDto>> {
+    const model = { email: payload.email, otp: payload.otp };
+    const url: string = `${environment.apiUrl}/auth/verify-email`;
+    return this.http.post <HttpResponse<VerifyEmailDto>>(url, model);
   }
+
 
   logout(): boolean {
     this.localStorage.removeItem('authUser');
@@ -83,6 +83,29 @@ export class AuthService {
         matchingControl.setErrors(null);
         return null;
       }
+    };
+  }
+
+  passwordValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value: string = control.value || '';
+      const upperCaseCharacters = /[A-Z]+/g;
+      const lowerCaseCharacters = /[a-z]+/g;
+      const numberCharacters = /[0-9]+/g;
+      const specialCharacters = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+      if (!upperCaseCharacters.test(value)) {
+        return { passwordUppercase: true };
+      }
+      if (!lowerCaseCharacters.test(value)) {
+        return { passwordLowercase: true };
+      }
+      if (!numberCharacters.test(value)) {
+        return { passwordNumber: true };
+      }
+      if (!specialCharacters.test(value)) {
+        return { passwordSpecial: true };
+      }
+      return null;
     };
   }
 }

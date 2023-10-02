@@ -6,11 +6,11 @@ import { MaterialModule } from '../material/material.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { ComponentsModule } from '../../components/components.module';
-import { EffectsModule } from '@ngrx/effects';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { VerifyEmailComponent } from './verify-email/verify-email.component';
 
 @NgModule({
-  declarations: [LoginComponent, SignupComponent],
+  declarations: [LoginComponent, SignupComponent, VerifyEmailComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
@@ -18,7 +18,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ImageCropperModule,
     MaterialModule,
     ComponentsModule,
-    EffectsModule.forFeature(),
   ],
 })
 export class AuthModule {}

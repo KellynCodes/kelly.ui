@@ -1,4 +1,4 @@
-import { UploadFileResponseDto } from '../../../../services/auth/Dto/UploadFileResponseDto';
+import { UploadFileResponseDto } from "../../services/file/Dto/UploadFileResponseDto";
 
 export const fileState: UploadFileResponseDto = {
   isSuccessful: false,

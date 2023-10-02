@@ -1,5 +1,7 @@
+import { HttpStatusCode } from "@angular/common/http";
+
 export interface HttpResponse<T = null> {
   message: string | any;
-  statusCode: number | null;
+  isSuccessful: boolean;
   data: T | null;
 }

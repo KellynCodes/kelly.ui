@@ -1,13 +1,20 @@
-import { createReducer, on } from "@ngrx/store";
+import { Action, createReducer, on } from "@ngrx/store";
+import { LoginSuccessDto } from "../../../../services/auth/Dto/LoginSuccessDto";
+import { VerifyEmailDto } from "../../../../services/auth/Dto/verify-email.dto";
 import {
-  AuthFailure,
-  GetUserSuccess,
-  LoginSuccess,
-  LogoutSuccess,
-  setAuthErrorMessage,
-  setAuthLoadingSpinner
+    AuthFailure,
+    GetUserSuccess,
+    LoginSuccess,
+    LogoutSuccess,
+    StopLoading,
+    VerifyEmailFailure,
+    VerifyEmailRequest,
+    VerifyEmailSuccess,
+    setAuthErrorMessage,
+    setAuthLoadingSpinner
 } from "./auth.action";
-import { authState } from "./auth.state";
+import { authState, verifyTokenState } from "./auth.state";
+import { HttpResponse } from "../../../../data/Dto/shared/http.response.dto";
 
 const _authReducer = createReducer(
   authState,
@@ -79,7 +86,54 @@ const _authReducer = createReducer(
 
 );
 
-export function authReducer(state: any, action: any) {
+export function authReducer(state: LoginSuccessDto | undefined, action: Action) {
   return _authReducer(state, action);
 }
 
+//Verification email state
+
+const _verificationEmailReducer = createReducer(
+  verifyTokenState,
+  on(VerifyEmailRequest, (state, { model }) => {
+    return {
+      ...state,
+      message: model.message,
+      isSuccessful: model.isSuccessful,
+     data: model.data
+    }
+
+  }), on(VerifyEmailSuccess, (state, { model }) => {
+    return {
+      ...state,
+      message: model.message,
+      isSuccessful: model.isSuccessful,
+     data: model.data
+    }
+  }),
+
+  on(VerifyEmailFailure, (state, { model}) => {
+    return {
+      ...state,
+      message: model.message,
+      isSuccessful: model.isSuccessful,
+      data: {
+        isLoading: false,
+        email: null,
+        otp: null,
+      }
+    }
+  }),
+
+  on(StopLoading, (state, {model}) => {
+    return {
+      ...state,
+      message: model.message,
+      isSuccessful: model.isSuccessful,
+      data: model.data
+    }
+  })
+)
+
+export function verificationEmailReducer(state: HttpResponse<VerifyEmailDto> | undefined, action: Action) {
+  return _verificationEmailReducer(state, action);
+}

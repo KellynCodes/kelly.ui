@@ -1,6 +1,5 @@
 import { createAction, props } from '@ngrx/store';
 import { HttpResponse } from '../../../../data/Dto/shared/http.response.dto';
-import { SignUpDto } from '../../../../services/auth/Dto/signup.dto';
 
 export const RegistrationRequest = createAction(
   '[SignUp] Request',
@@ -12,7 +11,14 @@ export const RegistrationSuccess = createAction(
   props<HttpResponse>()
 );
 
+
 export const RegistrationFailure = createAction(
   '[SignUp] Request Failure',
+  props<{error: any }>()
+);
+
+
+export const RegistrationFired = createAction(
+  '[SignUp] Request Fired',
   props<HttpResponse<{ IsLoading: boolean }>>()
 );

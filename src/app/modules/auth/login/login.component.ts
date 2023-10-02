@@ -20,7 +20,7 @@ export class LoginComponent {
   IsFetching!: boolean;
   hidePassword!: boolean;
   loginForm!: FormGroup;
-  errorMessage!: string | null;
+  errorMessage: string | null = null;
   IsLoading$ = this.store.select(authSelectors.getLoading);
   errorMessage$ = this.store.select(authSelectors.getErrorMessage);
 
@@ -38,7 +38,7 @@ export class LoginComponent {
   Login(): void {
     if (!this.loginForm.valid) {
       this.errorMessage = 'All the fields are required.';
-      this.timeoutUtil.setTimeOut(3000, this.errorMessage);
+      this.errorMessage = this.timeoutUtil.setTimeOut(50);
       return;
     }
     const loginCredentials: LoginDto = { email: this.loginForm.value.email, password: this.loginForm.value.password };
@@ -50,6 +50,6 @@ export class LoginComponent {
       refreshToken: null,
       user: null
     }));
-    this.store.dispatch(authActions.LoginRequest({ credentails: loginCredentials }));
+    this.store.dispatch(authActions.LoginRequest({ model: loginCredentials }));
   }
 }
