@@ -1,0 +1,83 @@
+<div
+  class="container height-100 d-flex justify-content-center align-items-center"
+>
+  <div class="position-relative">
+    <div class="card p-2 text-center">
+      <h6>
+        Please enter the one time password <br />
+        we sent to <b>{{userEmail}}</b>  <br />
+        to verify your account
+      </h6>
+      <div>
+      </div>
+      <div id="otp" class="inputs d-flex flex-row justify-content-center mt-2">
+        <input
+          class="m-2 text-center form-control rounded"
+          type="text"
+          id="first"
+          name="first"
+          maxlength="1"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="text"
+          id="second"
+          name="second"
+          maxlength="1"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="text"
+          id="third"
+          name="third"
+          maxlength="1"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="text"
+          id="fourth"
+          name="fourth"
+          maxlength="1"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="text"
+          id="fifth"
+          name="fifth"
+          maxlength="1"
+        />
+        <input
+          class="m-2 text-center form-control rounded"
+          type="text"
+          id="sixth"
+          name="sixth"
+          maxlength="1"
+        />
+      </div>
+      <div *ngIf="(verificationState$ | async)?.isSuccessful == false" >
+        <h5 *ngIf="message$ | async as message" class="badge bg-danger">
+        {{message}}
+        </h5>
+      </div>
+      <div *ngIf="isSuccessful$ | async as isSuccessful">
+      <h5 *ngIf="message$ | async as message" class="badge bg-success">{{message}}</h5>
+      </div>
+      <h5 *ngIf="isLoading$ | async" class="badge bg-success">Verifying</h5>
+      <h5 *ngIf="isSuccessful$ | async" class="badge bg-success">Navigating to login page...</h5>
+      <h5 *ngIf="isNanMessage != null" class="badge bg-danger">{{isNanMessage}}</h5>
+      <div class="mt-4">
+        <button
+                (click)="onSubmit()"
+                type="submit"
+                class="btn btn-success px-4 validate"
+                >Verify</button>
+       </div>
+    </div>
+    <div class="card-2">
+      <div class="content d-flex justify-content-center align-items-center">
+        <span>Didn't get the code</span>
+        <a href="#" class="text-decoration-none ms-3">Resend(1/3)</a>
+      </div>
+    </div>
+  </div>
+</div>

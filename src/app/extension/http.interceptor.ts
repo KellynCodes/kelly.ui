@@ -30,13 +30,10 @@ export class JwtTokenInterceptor implements HttpInterceptor {
     return this.store.select(selectToken).pipe(
       take(1),
       exhaustMap((token) => {
-        // If no token, just pass the original request
-        console.log(request);
         if (!token) {
           return next.handle(request);
         }
 
-        // Clone the request and set the new header
         const clonedRequest = request.clone({
           headers: request.headers.set('Authorization', `Bearer ${token}`),
         });
@@ -44,7 +41,6 @@ export class JwtTokenInterceptor implements HttpInterceptor {
         return next.handle(clonedRequest).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === HttpStatusCode.Unauthorized) {
-              // If we get an unauthorized response, assume token has expired and log the user out.
               this.authService.logout();
             }
             this.store.dispatch(AuthFailure(error));

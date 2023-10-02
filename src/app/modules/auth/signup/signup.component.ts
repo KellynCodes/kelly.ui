@@ -1,20 +1,18 @@
-import { SignUpDto } from '../../../services/auth/Dto/signup.dto';
 import { Component, HostListener, Inject } from '@angular/core';
 import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    Validators,
 } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { Role } from '../../../data/enum/role';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { localStorageToken } from '../../../extension/local.storage';
+import { SignUpDto } from '../../../services/auth/Dto/signup.dto';
 import { AuthService } from '../../../services/auth/auth.service';
 import { AppState } from '../../../state/app/app.state';
-import * as selectFileUploadStates from '../state/file/file.selector';
-import * as selectSignUpStates from '../state/signup/signup.selector';
 import * as signUpActions from '../state/signup/signup.action';
-import { ImageCroppedEvent } from 'ngx-image-cropper';
+import * as selectSignUpStates from '../state/signup/signup.selector';
 
 @Component({
   selector: 'kelly-signup',
@@ -29,15 +27,7 @@ export class SignupComponent {
   croppedFile!: Blob;
   imageChangedEvent!: Event;
   hidePassword!: boolean;
-  hasUnsavedChanges!: boolean;
   regForm!: FormGroup;
-
-  // file upload
-  uploadMessage$ = this.store.select(
-    selectFileUploadStates.getFileUploadErrorMessage
-  );
-  isUploading$ = this.store.select(selectFileUploadStates.IsUploading);
-  isUploaded$ = this.store.select(selectFileUploadStates.IsUploaded);
 
   // signup
   isSigningUp$ = this.store.select(selectSignUpStates.getSignUpIsLoading);
@@ -52,34 +42,22 @@ export class SignupComponent {
   ngOnInit(): void {
     this.regForm = new FormGroup(
       {
-        UserName: new FormControl('', Validators.required),
-        Email: new FormControl('', [Validators.required, Validators.email]),
-        Password: new FormControl('', [
+        userName: new FormControl('', Validators.required),
+        email: new FormControl('', [Validators.required, Validators.email]),
+        password: new FormControl('', [
           Validators.required,
           Validators.minLength(8),
+          this.authService.passwordValidator(),
         ]),
         confirmPassword: new FormControl('', [
           Validators.required,
           Validators.minLength(8),
         ]),
       },
-      { validators: this.authService.mustMatch('Password', 'confirmPassword') }
+      { validators: this.authService.mustMatch('password', 'confirmPassword') }
     );
   }
 
-  ngOnDestroy(): void {
-    if (this.regForm.touched) {
-      this.hasUnsavedChanges = true;
-    } else {
-      this.hasUnsavedChanges = false;
-    }
-  }
-
-  @HostListener('window:beforeunload', ['$event'])
-  unloadNotification($event: any): void {
-    confirm('You have unsaved changes! Are you sure you want to leave?');
-    console.log('reloading');
-  }
 
   getControl(name: string): AbstractControl | null {
     return this.regForm.get(name);
@@ -113,7 +91,6 @@ export class SignupComponent {
   loadImageFailed(): void {}
 
   onSubmit(): void {
-    console.log(this.regForm.value);
     if (!this.regForm.valid) {
       return;
     }
@@ -122,16 +99,21 @@ export class SignupComponent {
       ...this.regForm.value,
     };
     const formData: FormData = new FormData();
-    formData.append('Email', model.Email);
-    formData.append('UserName', model.UserName);
-    formData.append('Password', model.Password);
-    formData.append('ConfirmPassword', model.confirmPassword);
+    formData.append('email', model.email);
+    formData.append('userName', model.userName);
+    formData.append('password', model.password);
+    formData.append('confirmPassword', model.confirmPassword);
     if (this.croppedFile != null) {
-      formData.append('ProfileImage', this.croppedFile, this.file?.name);
+      formData.append('profileImage', this.croppedFile, this.file?.name);
     }
-    console.log(model);
-    const file = formData.get('ProfileImage');
-    console.log(file);
+
+    this.store.dispatch(
+      signUpActions.RegistrationFired({
+        message: null,
+        isSuccessful: false,
+        data: { IsLoading: true },
+      })
+    );
     this.store.dispatch(signUpActions.RegistrationRequest({ file: formData }));
   }
 }

@@ -38,7 +38,7 @@ export class ContactComponent {
   contactMe(): void {
     if (!this.contactForm.valid) {
       this.errorMessage = "Fill all the field.";
-      this.timeoutUtil.setTimeOut(3000, this.errorMessage);
+      this.errorMessage = this.timeoutUtil.setTimeOut(10);
       return;
     }
     const model: ContactDto = this.contactForm.value;

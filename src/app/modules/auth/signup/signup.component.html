@@ -3,69 +3,116 @@
     <h2>SignUp</h2>
     <div class="form_container">
       <div class="img_preview_container">
-        <img *ngIf="imagePreviewLink != null" [src]="imagePreviewLink" alt="image preview">
+        <img
+          *ngIf="imagePreviewLink != null"
+          [src]="imagePreviewLink"
+          alt="image preview"
+        />
       </div>
       <div class="input_container">
         <mat-form-field appearance="outline">
           <mat-label>Username</mat-label>
-          <input matInput formControlName="UserName" type="text">
-          <mat-error *ngIf="regForm.get('UserName')?.hasError('required')">
+          <input matInput formControlName="userName" type="text" />
+          <mat-error *ngIf="regForm.get('userName')?.hasError('required')">
             Username is required.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>example@gmail.com</mat-label>
-          <input matInput formControlName="Email" type="email">
-          <mat-error *ngIf="regForm.get('Email')?.hasError('required')">
+          <input matInput formControlName="email" type="email" />
+          <mat-error *ngIf="regForm.get('email')?.hasError('required')">
             Email is required.
           </mat-error>
-          <mat-error *ngIf="regForm.get('Email')?.hasError('email')">
+          <mat-error *ngIf="regForm.get('email')?.hasError('email')">
             Please enter a valid email.
           </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Password</mat-label>
-          <input matInput formControlName="Password" [type]="hidePassword ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidePassword">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input
+            matInput
+            formControlName="password"
+            [type]="hidePassword ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
           </button>
-          <mat-error *ngIf="regForm.get('Password')?.hasError('required')">
+          <mat-error *ngIf="regForm.get('password')?.hasError('required')">
             Password is required.
           </mat-error>
-          <p *ngIf="regForm.get('Password')?.hasError('minLength')">
+          <mat-error *ngIf="regForm.get('password')?.hasError('minLength')">
             Password should be at least 8 characters.
-          </p>
+          </mat-error>
+          <mat-error
+            *ngIf="regForm.get('password')?.hasError('passwordUppercase')"
+            >Password must have at least one uppercase letter.</mat-error
+          >
+          <mat-error
+            *ngIf="regForm.get('password')?.hasError('passwordLowercase')"
+            >Password must have at least one lowercase letter.</mat-error
+          >
+          <mat-error *ngIf="regForm.get('password')?.hasError('passwordNumber')"
+            >Password must have at least one number.</mat-error
+          >
+          <mat-error
+            *ngIf="regForm.get('password')?.hasError('passwordSpecial')"
+            >Password must have at least one special character.</mat-error
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Confirm Password</mat-label>
-          <input matInput formControlName="confirmPassword" [type]="hidePassword ? 'password' : 'text'">
-          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidePassword">
-            <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+          <input
+            matInput
+            formControlName="confirmPassword"
+            [type]="hidePassword ? 'password' : 'text'"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
           </button>
-          <mat-error *ngIf="regForm.get('confirmPassword')?.hasError('required')">
+          <mat-error
+            *ngIf="regForm.get('confirmPassword')?.hasError('required')"
+          >
             Confirm Password is required.
           </mat-error>
           <p *ngIf="regForm.get('confirmPassword')?.hasError('minLength')">
             Confirm Password should be at least 8 characters.
           </p>
-          <mat-error *ngIf="regForm.get('confirmPassword')?.hasError('mustMatch')">
+          <mat-error
+            *ngIf="regForm.get('confirmPassword')?.hasError('mustMatch')"
+          >
             Passwords do not match.
           </mat-error>
         </mat-form-field>
-
       </div>
 
       <!-- Button to Open the Modal -->
       <div>
-        <button type="button" [innerHTML]="imagePreviewLink != null ? 'Edit': 'Upload Image'"
-          class="mb-3 mr-4 btn btn-primary bg-primary text-white" data-bs-toggle="modal"
-          data-bs-target="#UPLOAD_PROFILE_IMAGE">
-        </button>
+        <button
+          type="button"
+          [innerHTML]="imagePreviewLink != null ? 'Edit Image' : 'Upload Image'"
+          class="mb-3 mr-4 btn btn-primary bg-primary text-white"
+          data-bs-toggle="modal"
+          data-bs-target="#UPLOAD_PROFILE_IMAGE"
+        ></button>
 
         <!-- The Modal -->
         <div class="modal" id="UPLOAD_PROFILE_IMAGE">
@@ -74,53 +121,70 @@
               <!-- Modal Header -->
               <div class="modal-header">
                 <h2 class="modal-title">Upload Profile Image</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                ></button>
               </div>
 
               <!-- Modal body -->
               <div class="modal-body">
                 <div class="file_input_container">
                   <mat-label class="mb-2">Upload Profile Image</mat-label>
-                  <input class="file_input form-control" (change)="onFileSelect($event)" type="file">
+                  <input
+                    class="file_input form-control"
+                    (change)="onFileSelect($event)"
+                    type="file"
+                  />
                 </div>
 
-                <image-cropper [imageChangedEvent]="imageChangedEvent" [aspectRatio]="4/4" [maintainAspectRatio]="true"
-                  [resizeToHeight]="300" format="jpeg" (imageCropped)="cropImage($event)" (imageLoaded)="loadImage()"
-                  (cropperReady)="initCropper()" (loadImageFailed)="loadImageFailed()">
+                <image-cropper
+                  [imageChangedEvent]="imageChangedEvent"
+                  [aspectRatio]="4 / 4"
+                  [maintainAspectRatio]="true"
+                  [resizeToHeight]="300"
+                  format="jpeg"
+                  (imageCropped)="cropImage($event)"
+                  (imageLoaded)="loadImage()"
+                  (cropperReady)="initCropper()"
+                  (loadImageFailed)="loadImageFailed()"
+                >
                 </image-cropper>
-
               </div>
 
               <div class="col-md-3">
-                <img *ngIf="imagePreviewLink != null" [src]="imagePreviewLink" alt="image preview">
+                <img
+                  *ngIf="imagePreviewLink != null"
+                  [src]="imagePreviewLink"
+                  alt="image preview"
+                />
               </div>
               <!-- Modal footer -->
               <div class="modal-footer">
-                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Close</button>
-              </div>
-
-              <h5 class="badge text-white bg-info" *ngIf="isUploading$ | async">Uploading...</h5>
-              <div *ngIf="isUploaded$ | async as isUploaded">
-                <p class="badge bg-success" *ngIf="isUploaded">
-                  Image uploaded successful.
-                </p>
-
-                <p class="badge w-auto bg-danger" *ngIf="!isUploaded">
-                  Something happened while trying to upload your image. Try again!
-                </p>
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  data-bs-dismiss="modal"
+                >
+                  Upload
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <h5 class="badge bg-danger" *ngIf="signUpMessage$ | async as errorMessage"> {{errorMessage}} </h5>
-      <h5 class="badge bg-info" *ngIf="isSigningUp$ | async">Loading...</h5>
+      <h5 class="badge bg-info" *ngIf="signUpMessage$ | async as message">
+        {{ message }}
+      </h5>
+      <h5 class="badge bg-success" *ngIf="isSigningUp$ | async">Loading...</h5>
 
-      <button mat-raised-button color="primary" type="submit">
-        SignUp
-      </button>
+      <button mat-raised-button color="primary" type="submit">SignUp</button>
     </div>
-    <h4>Already have an account? <span><a routerLink="/auth/login">Login</a></span></h4>
+    <h4>
+      Already have an account?
+      <span><a routerLink="/auth/login">Login</a></span>
+    </h4>
   </form>
 </div>

@@ -37,3 +37,25 @@ h6 {
   background-color: #808080 !important;
 }
 
+
+//scroll bar design
+/* This targets the container */
+::-webkit-scrollbar {
+  width: 12px; /* width of the entire scrollbar */
+}
+
+/* This targets the horizontal scrollbar. You can also target the vertical scrollbar with ::-webkit-scrollbar-track-vertical */
+::-webkit-scrollbar-track {
+  background: #f7f7f7; /* color of the tracking area */
+}
+
+/* This targets the visible thumb */
+::-webkit-scrollbar-thumb {
+  background-color: #34b7a7; /* color of the scroll thumb */
+  border-radius: 4px; /* roundness of the scroll thumb */
+}
+
+/* Hover effect for the thumb */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #1a4d47; /* color of the scroll thumb on hover */
+}

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { UploadFileResponseDto } from '../../../../services/auth/Dto/UploadFileResponseDto';
+import { UploadFileResponseDto } from '../../services/file/Dto/UploadFileResponseDto';
 
 export const UploadFileRequest = createAction(
   '[File] Upload user avatar',

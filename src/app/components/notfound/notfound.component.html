@@ -1,1 +1,26 @@
-<p>notfound works!</p>
+<section>
+  <div class="container">
+    <div class="text">
+      <h1>Page Not Found</h1>
+      <p>We can't seem to find the page you're looking for. Please check the URL for any typos.</p>
+      <div class="input-box">
+        <input #inputBox id="input-box" [(ngModel)]="input" (keyup)="onKeyUp()" type="text" placeholder="Search...">
+        <button><i class="bi bi-search"></i></button>
+      </div>
+      <div *ngIf="filteredLinks.length" class="result-box" #resultsBox>
+        <ul>
+          <li *ngFor="let link of filteredLinks">
+            <a [href]="link.href">{{ link.text }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <ul class="menu">
+        <li><a routerLink="/">Go to Homepage</a></li>
+        <li><a routerLink="/blog">Visit our Blog</a></li>
+        <li><a rouiterLink="/contact">Contact Me</a></li>
+      </ul>
+    </div>
+    <div><img class="image" src="https://omjsblog.files.wordpress.com/2023/07/errorimg.png" alt=""></div>
+  </div>
+</section>

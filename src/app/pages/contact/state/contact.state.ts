@@ -1,4 +1,4 @@
-import { HttpResponse } from "../../../data/Dto/shared/http.response.dto";
+import { HttpResponse } from '../../../data/Dto/shared/http.response.dto';
 
 export interface ContactState {
   name: string | null;
@@ -6,9 +6,8 @@ export interface ContactState {
   message: string | null;
 }
 
-
 export const contactState: HttpResponse<ContactState> = {
   message: null,
-  statusCode: null,
-  data: null
-}
+  isSuccessful: false,
+  data: null,
+};

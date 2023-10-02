@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { SignupComponent } from '../signup/signup.component';
 import { LoginComponent } from '../login/login.component';
 import { navigationGuard } from '../../../guard/navigation/navigation.guard';
+import { VerifyEmailComponent } from '../verify-email/verify-email.component';
 
 export const authRoutes: Routes = [
   {
@@ -18,9 +19,11 @@ export const authRoutes: Routes = [
         component: SignupComponent,
         title: 'SignUp',
         canActivate: [navigationGuard],
-        canDeactivate: [
-          (component: SignupComponent) => !component.hasUnsavedChanges,
-        ],
+      },
+      {
+        path: 'verify-email/:email',
+        component: VerifyEmailComponent,
+        title: 'Verify-email',
       },
     ],
   },

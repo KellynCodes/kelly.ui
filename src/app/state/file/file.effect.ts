@@ -2,17 +2,17 @@ import { Inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, exhaustMap, finalize, map, of } from 'rxjs';
-import { localStorageToken } from '../../../../extension/local.storage';
-import { AuthService } from '../../../../services/auth/auth.service';
-import { AppState } from '../../../../state/app/app.state';
 import * as FileActions from './file.action';
+import { localStorageToken } from '../../extension/local.storage';
+import { FileService } from '../../services/file/file.service';
+import { AppState } from '../app/app.state';
 
 @Injectable()
 export class FileEffect {
   constructor(
     @Inject(localStorageToken) private localStorage: Storage,
     private actions$: Actions,
-    private authService: AuthService,
+    private fileService: FileService,
     private store: Store<AppState>
   ) {}
 
@@ -20,7 +20,7 @@ export class FileEffect {
     this.actions$.pipe(
       ofType(FileActions.UploadFileRequest),
       exhaustMap((model) =>
-        this.authService.postFile(model.file, model.userId).pipe(
+        this.fileService.postFile(model.file, model.userId).pipe(
           map((res) => {
             return FileActions.UploadFileSuccess(res);
           }),
@@ -37,15 +37,4 @@ export class FileEffect {
     )
   );
 
-  UploadImageSuccess$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(FileActions.UploadFileSuccess),
-        map((data) => {
-          this.localStorage.removeItem('avatarUrl');
-          this.localStorage.setItem('avatarUrl', data.fileUrl!);
-        })
-      ),
-    { dispatch: false }
-  );
 }

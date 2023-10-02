@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
-import { RegistrationFailure, RegistrationSuccess } from "./signup.action";
 import { signUpState } from "./signup.state";
+import { RegistrationFailure, RegistrationFired, RegistrationSuccess } from "./signup.action";
 
 export const _signUpReducer = createReducer(
   signUpState,
@@ -8,16 +8,25 @@ export const _signUpReducer = createReducer(
     return {
       ...state,
       message: action.message,
-      statusCode: action.statusCode,
+      isSuccessful: action.isSuccessful,
      data: action.data
     }
   }),
 
-  on(RegistrationFailure, (state, action) => {
+  on(RegistrationFailure, (state, { error }) => {
+    return {
+      ...state,
+      message: error.message,
+      isSuccessful: false,
+      data: null
+    }
+  }),
+
+  on(RegistrationFired, (state, action) => {
     return {
       ...state,
       message: action.message,
-      statusCode: action.statusCode,
+      isSuccessful: action.isSuccessful,
       data: action.data
     }
   })

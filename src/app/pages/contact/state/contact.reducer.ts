@@ -8,7 +8,7 @@ const _contactReducer = createReducer(
     return {
       ...state,
       message: res.message,
-      statusCode: res.statusCode,
+      isSuccessful: res.isSuccessful,
       data: res.data
     }
   })

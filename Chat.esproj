@@ -15,7 +15,7 @@
     <Folder Include="src\app\data\enum\" />
     <Folder Include="src\app\models\" />
     <Folder Include="src\app\extension\" />
-    <Folder Include="src\app\modules\auth\state\file\" />
+    <Folder Include="src\app\state\file\" />
     <Folder Include="src\app\pages\contact\state\" />
     <Folder Include="src\app\modules\chat\chat\state\" />
     <Folder Include="src\app\state\shared\" />
