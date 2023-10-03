@@ -10,6 +10,9 @@ import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../modules/material/material.module';
 import { ComponentsModule } from '../components/components.module';
 import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
+import { BlogsComponent } from './blog/blogs/blogs.component';
+import { BlogDetailComponent } from './blog/blog-detail/blog-detail.component';
+import { NewBlogComponent } from './blog/new-blog/new-blog.component';
 
 
 @NgModule({
@@ -20,6 +23,9 @@ import { MdbCarouselModule } from 'mdb-angular-ui-kit/carousel';
     ResumeComponent,
     ContactComponent,
     ServicesComponent,
+    BlogsComponent,
+    BlogDetailComponent,
+    NewBlogComponent,
   ],
   imports: [
     CommonModule,

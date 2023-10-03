@@ -68,7 +68,7 @@ export class VerifyEmailComponent {
           } else if (event.key.length === 1 && /[a-zA-Z]/.test(event.key)) {
             // Letter keys
             input.value = event.key;
-            this.otp = event.key;
+            this.otp += event.key;
             if (i !== inputs.length - 1) inputs[i + 1].focus();
             event.preventDefault();
           }
