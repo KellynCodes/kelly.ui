@@ -113,6 +113,10 @@ section {
       background-color: #004958;
     }
 
+    .result-box ul li:hover .result-box ul li a {
+      color: #ffffff;
+    }
+
 .result-box {
   max-height: 100px;
   overflow: scroll;
@@ -122,10 +126,6 @@ section {
   .result-box li a {
     color: #22232e;
   }
-
-Here’s a CodePen:
-
-
 
 @media screen and (max-width:600px) {
   .container {

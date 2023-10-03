@@ -13,7 +13,6 @@ export class ContactService {
   constructor(private http: HttpClient) { }
 
   contactMe(model: ContactDto): Observable<HttpResponse> {
-    debugger;
     const url: string = `${environment.apiUrl}/contact`;
     return this.http.post<HttpResponse>(url, model);
   }
